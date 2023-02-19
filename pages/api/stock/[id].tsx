@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import { StockProps } from "@/components/Stock";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { GetServerSideProps } from "next";
 import ReactMarkdown from "react-markdown";
 

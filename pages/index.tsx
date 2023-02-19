@@ -1,5 +1,5 @@
 import Stock, { StockProps } from "@/components/Stock";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { GetStaticProps } from "next";
 import Layout from "../components/Layout"
 
