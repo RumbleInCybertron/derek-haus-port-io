@@ -10,6 +10,7 @@ generator client {
 model Portfolio {
   id              String           @id @default(cuid())
   name            String
+  createdAt       DateTime         @default(now()) @map(name: "created_at")
   user            User             @relation(fields: [userId], references: [id])
   userId          String           @unique
   portfolioStocks PortfolioStock[]
@@ -21,6 +22,7 @@ model Stock {
   ticker          String
   index           String
   price           Float
+  createdAt       DateTime         @default(now()) @map(name: "created_at")
   PortfolioStocks PortfolioStock[]
 }
 
@@ -28,6 +30,7 @@ model PortfolioStock {
   id           String        @id @default(cuid())
   transactions Transaction[]
   shares       Int
+  createdAt    DateTime      @default(now()) @map(name: "created_at")
   portfolio    Portfolio     @relation(fields: [portfolioId], references: [id])
   portfolioId  String
   stock        Stock         @relation(fields: [stockId], references: [id])
