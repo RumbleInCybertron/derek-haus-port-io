@@ -7,36 +7,46 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Stock {
-  id        String      @id @default(cuid())
-  name      String
-  ticker    String
-  index     String
-  price     Float
-  UserStock UserStock[]
+model Portfolio {
+  id              String           @id @default(cuid())
+  name            String
+  user            User             @relation(fields: [userId], references: [id])
+  userId          String           @unique
+  portfolioStocks PortfolioStock[]
 }
 
-model UserStock {
+model Stock {
+  id              String           @id @default(cuid())
+  name            String
+  ticker          String
+  index           String
+  price           Float
+  PortfolioStocks PortfolioStock[]
+}
+
+model PortfolioStock {
   id           String        @id @default(cuid())
   transactions Transaction[]
   shares       Int
-  user         User?         @relation(fields: [userId], references: [id])
+  portfolio    Portfolio     @relation(fields: [portfolioId], references: [id])
+  portfolioId  String
+  stock        Stock         @relation(fields: [stockId], references: [id])
+  stockId      String
+  User         User?         @relation(fields: [userId], references: [id])
   userId       String?
-  stock        Stock?        @relation(fields: [stockId], references: [id])
-  stockId      String?
 }
 
 model Transaction {
-  id          String     @id @default(cuid())
-  ticker      String
-  price       Float
-  units       Float
-  type        String
-  createdAt   DateTime   @default(now()) @map(name: "created_at")
-  user        User?      @relation(fields: [userId], references: [id])
-  userId      String?
-  UserStock   UserStock? @relation(fields: [userStockId], references: [id])
-  userStockId String?
+  id               String          @id @default(cuid())
+  ticker           String
+  price            Float
+  units            Float
+  type             String
+  createdAt        DateTime        @default(now()) @map(name: "created_at")
+  user             User?           @relation(fields: [userId], references: [id])
+  userId           String?
+  PortfolioStock   PortfolioStock? @relation(fields: [PortfolioStockId], references: [id])
+  PortfolioStockId String?
 }
 
 enum Role {
@@ -74,17 +84,18 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
-  name          String?
-  email         String?       @unique
-  image         String?
-  createdAt     DateTime      @default(now()) @map(name: "created_at")
-  updatedAt     DateTime      @updatedAt @map(name: "updated_at")
-  UserStock     UserStock[]
-  Transaction   Transaction[]
-  accounts      Account[]
-  Session       Session[]
-  emailVerified DateTime?     @map("email_verified")
+  id             String           @id @default(cuid())
+  name           String?
+  email          String?          @unique
+  image          String?
+  createdAt      DateTime         @default(now()) @map(name: "created_at")
+  updatedAt      DateTime         @updatedAt @map(name: "updated_at")
+  PortfolioStock PortfolioStock[]
+  Transaction    Transaction[]
+  accounts       Account[]
+  Session        Session[]
+  portfolio      Portfolio?
+  emailVerified  DateTime?        @map("email_verified")
 }
 
 model VerificationToken {
