@@ -9,11 +9,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     where: {
       id: String(params?.id)
     },
-    include: {
-      UserStock: {
-        select: {shares: true},
-      },
-    },
   });
   return {
     props: [stock],
@@ -24,9 +19,9 @@ const Stock: React.FC<StockProps> = (props) => {
   return (
     <Layout>
       <div>
-      <small>{props.stock.index}: {props.stock.ticker}</small>
-      <small>{props.stock.price}</small>
-        <ReactMarkdown>{props.stock.name}</ReactMarkdown>
+      <small>{props.index}: {props.ticker}</small>
+      <small>{props.price}</small>
+        <ReactMarkdown>{props.name}</ReactMarkdown>
       </div>
       <style jsx>{`
         .page {
