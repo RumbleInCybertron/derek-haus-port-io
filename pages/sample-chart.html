@@ -195,6 +195,48 @@
       return gradientBackground;
     };
 
+    myChart.canvas.addEventListener('mousemove', (e) => {
+      crosshairLine(myChart, e)
+    });
+
+    function crosshairLine(chart, mousemove){
+      const { canvas, ctx, chartArea: { left, right, top, bottom } } = chart;
+
+      const coorX = mousemove.offsetX;
+      const coorY = mousemove.offsetY;
+
+      chart.update('none');
+      ctx.restore();
+
+      if (coorX >= left && coorX <= right && coorY >= top && coorY <= bottom) {
+        canvas.style.cursor = 'crosshair';
+      } else {
+        canvas.style.cursor = 'default';
+      }
+
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#666';
+      ctx.setLineDash([3, 3]);
+
+      // Horizontal Line
+      ctx.beginPath();
+      if(coorY >= top && coorY <= bottom) {        
+        ctx.moveTo(left, coorY);
+        ctx.lineTo(right, coorY);
+        ctx.stroke();
+      }
+      ctx.closePath();
+
+      // Vertical Line
+      ctx.beginPath();
+      if(coorX >= left && coorX <= right) {        
+        ctx.moveTo(coorX, top);
+        ctx.lineTo(coorX, bottom);
+        ctx.stroke();
+      }
+      ctx.closePath();
+    };
+
     </script>
   </body>
 </html>
