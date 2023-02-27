@@ -66,7 +66,16 @@
         fill: {
           target: {
             value: 9.33
-          }
+          },
+          below: (context) => {
+            console.log(context)
+            const chart = context.chart;
+            const {ctx, chartArea, data, scales} = chart;
+            if(!chartArea) {
+              return null;
+            }
+            return belowGradient(ctx, chartArea, data, scales);
+          },
         },
         borderColor: (context) => {
           console.log(context)
@@ -113,7 +122,17 @@
       gradientBorder.addColorStop(shift, 'rgba(255, 26, 104, 1)');
       gradientBorder.addColorStop(1, 'rgba(255, 26, 104, 1)');
       return gradientBorder;
-    }
+    };
+    
+    function belowGradient(ctx, chartArea, data, scales) {
+      const  {left, right, top, bottom, width, height} = chartArea;
+      const {x,y} = scales;
+      const gradientBackground = ctx.createLinearGradient(0,y.getPixelForValue(data.datasets[0].data[0]),0,bottom);
+      gradientBackground.addColorStop(0, 'rgba(255, 26, 104, 0)');
+      gradientBackground.addColorStop(1, 'rgba(255, 26, 104, 0.5)');
+      return gradientBackground;
+    };
+
     </script>
 
   </body>
