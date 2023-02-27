@@ -235,8 +235,28 @@
         ctx.stroke();
       }
       ctx.closePath();
+
+      crosshairLabel(chart, mousemove);
     };
 
+    function crosshairLabel(chart, mousemove){
+      const { ctx, data, chartArea: {top, bottom, left, right, width, height}, scales: {x, y} } = chart;
+    
+      const coorX = mousemove.offsetX;
+      const coorY = mousemove.offsetY;
+
+      // yLabel
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(132, 132, 132, 1)';
+      ctx.fillRect(0, coorY - 10, left, 20);
+      ctx.closePath();
+
+      ctx.font = '12px sans-serif';
+      ctx.fillStyle = 'white';
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      ctx.fillText(y.getValueForPixel(coorY).toFixed(2), left / 2, coorY);
+    };
     </script>
   </body>
 </html>
