@@ -1,8 +1,9 @@
 import Stock, { StockProps } from "@/components/Stock";
 import { prisma } from "@/lib/prisma";
 import { GetStaticProps } from "next";
-import Layout from "../components/Layout"
-import BarChart from "../components/BarChart"
+import Layout from "@/components/Layout"
+import BarChart from "@/components/BarChart"
+import DonutChart from "@/components/DonutChart";
 
 export const getStaticProps: GetStaticProps = async () => {
   const feed = await prisma.stock.findMany({
@@ -49,6 +50,7 @@ const StockFeed: React.FC<Props> = (props) => {
       `}</style>
       </Layout>
       <BarChart />
+      <DonutChart />
     </>
   )
 }
