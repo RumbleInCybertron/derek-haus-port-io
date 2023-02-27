@@ -2,10 +2,11 @@ import Stock, { StockProps } from "@/components/Stock";
 import { prisma } from "@/lib/prisma";
 import { GetStaticProps } from "next";
 import Layout from "../components/Layout"
+import BarChart from "../components/BarChart"
 
 export const getStaticProps: GetStaticProps = async () => {
   const feed = await prisma.stock.findMany({
-    select: { index: true, price: true, id: true, ticker: true, name: true}
+    select: { index: true, price: true, id: true, ticker: true, name: true }
   });
 
   return {
@@ -20,18 +21,19 @@ type Props = {
 
 const StockFeed: React.FC<Props> = (props) => {
   return (
-    <Layout>
-      <div className="page">
-        <h1>Stock</h1>
-        <main>
-          {props.feed.map((stock) => (
-            <div key={stock.id} className="stock">
-              <Stock stock={stock} />
-            </div>
-          ))}
-        </main>
-      </div>
-      <style jsx>{`
+    <>
+      <Layout>
+        <div className="page">
+          <h1>Stock</h1>
+          <main>
+            {props.feed.map((stock) => (
+              <div key={stock.id} className="stock">
+                <Stock stock={stock} />
+              </div>
+            ))}
+          </main>
+        </div>
+        <style jsx>{`
         .stock {
           background: purple;
           transition: box-shadow 0.1s ease-in;
@@ -45,7 +47,9 @@ const StockFeed: React.FC<Props> = (props) => {
           margin-top: 2rem;
         }
       `}</style>
-    </Layout>
+      </Layout>
+      <BarChart />
+    </>
   )
 }
 
