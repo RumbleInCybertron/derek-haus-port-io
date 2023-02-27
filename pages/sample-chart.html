@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Getting Started with Chart JS with www.chartjs3.com</title>
+    <title>君の名は</title>
     <style>
       * {
         margin: 0;
@@ -39,7 +39,7 @@
   </head>
   <body>
     <div class="chartMenu">
-      <p>WWW.CHARTJS3.COM (Chart JS <span id="chartVersion"></span>)</p>
+      <p>キツネコムのチャートパル</p>
     </div>
     <div class="chartCard">
       <div class="chartBox">
@@ -51,9 +51,9 @@
     <script>
     // setup 
     const data = {
-      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      labels: ['月', '火', '水', '木', '金', '土', '日'],
       datasets: [{
-        label: 'Trading Week',
+        label: '取引週',
         data: [9.33, 12, 6, 9, 12, 3, 9],
         backgroundColor: [
           'rgba(255, 26, 104, 0.2)',
@@ -99,7 +99,8 @@
         tension: 0.4,
         pointRadius: 0,
         pointHitRadius: 10,
-        hoverPointRadius: 0
+        pointHoverRadius: 0,
+        borderWidth: 2,
       }]
     };
 
@@ -108,16 +109,29 @@
       id: 'dottedLine',
       beforeDatasetsDraw(chart, args, pluginOptions) {
         const  { ctx, data, chartArea: {left, right, width}, scales: {x, y} } = chart;
+        const startingPoint = data.datasets[0].data[0];
+        
         ctx.save();
         ctx.beginPath();
         ctx.lineWidth = 1;
         ctx.setLineDash([1, 5]);
         ctx.strokeStyle = 'rgba(102,102,102,1)';
-        ctx.moveTo(left, y.getPixelForValue(data.datasets[0].data[0]));
-        ctx.lineTo(right, y.getPixelForValue(data.datasets[0].data[0]));
+        ctx.moveTo(left, y.getPixelForValue(startingPoint));
+        ctx.lineTo(right, y.getPixelForValue(startingPoint));
         ctx.stroke();
         ctx.closePath();
         ctx.setLineDash([]);
+
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(102,102,102,1)';
+        ctx.fillRect(0, y.getPixelForValue(startingPoint) - 10, left, 20);
+        ctx.closePath();
+
+        ctx.font = '12px sans-serif';
+        ctx.fillStyle = 'white';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        ctx.fillText(startingPoint, left / 2, y.getPixelForValue(startingPoint));
       }
     }
 
@@ -126,6 +140,11 @@
       type: 'line',
       data,
       options: {
+        layout: {
+          padding: {
+            left: 10
+          }
+        },
         scales: {
           y: {
             beginAtZero: true
