@@ -52,12 +52,14 @@
     <script>
     const dates = [];
     const numbers = [];
+    const volume = [];
 
     for (let i = 0; i < 100; i++) {
       const date = new Date();
       date.setDate(date.getDate() + i);
       dates.push(date.setHours(0,0,0,0));
       numbers.push(Math.random() * 10);     
+      volume.push(Math.random() * 100);     
     }
 
     // setup 
@@ -111,6 +113,13 @@
         pointHitRadius: 0,
         pointHoverRadius: 0,
         borderWidth: 2,
+      }, {
+        label: 'Stock Volume',
+        type: 'bar',
+        data: volume,
+        pointHitRadius: 0,
+        pointHoverRadius: 0,
+        yAxisID: 'volume',
       }]
     };
 
@@ -164,6 +173,18 @@
           },
           y: {
             beginAtZero: true
+          },
+          volume: {
+            type: 'linear',
+            position: 'right',
+            min: 0,
+            max: 1000,
+            grid: {
+              display: false
+            },
+            ticks: {
+              display: false
+            }
           }
         },
         plugins: {
