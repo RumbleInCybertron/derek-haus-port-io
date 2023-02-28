@@ -154,6 +154,26 @@
       }
     }
 
+    // imageLogo plugin block
+    const logo = new Image();
+    logo.src = '../img/Logo_name.png';
+
+    const imageLogo = {
+      id: 'imageLogo',
+      beforeDatasetsDraw(chart, args, pluginOptions) {
+        const { ctx, chartArea: {top, bottom, left, right}} = chart;
+        ctx.save();
+        const imgWidth = 80;
+        const imgHeight = 30;
+        if(logo.complete) {
+          ctx.drawImage(logo, right - imgWidth - 10, bottom - 50, imgWidth, imgHeight)
+        } else {
+          logo.onload = () => chart.draw();
+        }
+        ctx.restore();
+      }
+    };
+
     // config 
     const config = {
       type: 'line',
@@ -195,7 +215,7 @@
           }
         }
       },
-      plugins: [dottedLine]
+      plugins: [dottedLine, imageLogo]
     };
 
     // render init block
