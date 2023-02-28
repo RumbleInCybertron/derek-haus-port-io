@@ -161,12 +161,12 @@
     const imageLogo = {
       id: 'imageLogo',
       beforeDatasetsDraw(chart, args, pluginOptions) {
-        const { ctx, chartArea: {top, bottom, left, right}} = chart;
+        const { ctx, chartArea: {top, bottom, left, right}, scales: {x, y}} = chart;
         ctx.save();
         const imgWidth = 80;
         const imgHeight = 30;
         if(logo.complete) {
-          ctx.drawImage(logo, right - imgWidth - 10, bottom - 50, imgWidth, imgHeight)
+          ctx.drawImage(logo, right - imgWidth - 10, y.getPixelForValue(2), imgWidth, imgHeight)
         } else {
           logo.onload = () => chart.draw();
         }
