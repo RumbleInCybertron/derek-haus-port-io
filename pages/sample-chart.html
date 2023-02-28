@@ -69,7 +69,6 @@
             value: 9.33
           },
           below: (context) => {
-            console.log(context)
             const chart = context.chart;
             const {ctx, chartArea, data, scales} = chart;
             if(!chartArea) {
@@ -78,7 +77,6 @@
             return belowGradient(ctx, chartArea, data, scales);
           },
           above: (context) => {
-            console.log(context)
             const chart = context.chart;
             const {ctx, chartArea, data, scales} = chart;
             if(!chartArea) {
@@ -88,7 +86,6 @@
           },
         },
         borderColor: (context) => {
-          console.log(context)
           const chart = context.chart;
           const {ctx, chartArea, data, scales} = chart;
           if(!chartArea) {
@@ -98,7 +95,7 @@
         },
         tension: 0.4,
         pointRadius: 0,
-        pointHitRadius: 10,
+        pointHitRadius: 0,
         pointHoverRadius: 0,
         borderWidth: 2,
       }]
@@ -218,25 +215,23 @@
       ctx.strokeStyle = '#666';
       ctx.setLineDash([3, 3]);
 
-      // Horizontal Line
-      ctx.beginPath();
-      if(coorY >= top && coorY <= bottom) {        
+      if(coorX >= left && coorX <= right && coorY >= top && coorY <= bottom) {
+        // Horizontal Line
+        ctx.beginPath();   
         ctx.moveTo(left, coorY);
         ctx.lineTo(right, coorY);
         ctx.stroke();
-      }
-      ctx.closePath();
+        ctx.closePath();
 
-      // Vertical Line
-      ctx.beginPath();
-      if(coorX >= left && coorX <= right) {        
+        // Vertical Line
+        ctx.beginPath();
         ctx.moveTo(coorX, top);
         ctx.lineTo(coorX, bottom);
         ctx.stroke();
-      }
-      ctx.closePath();
+        ctx.closePath();
 
-      crosshairLabel(chart, mousemove);
+        crosshairLabel(chart, mousemove);
+      }
     };
 
     function crosshairLabel(chart, mousemove){
@@ -244,18 +239,30 @@
     
       const coorX = mousemove.offsetX;
       const coorY = mousemove.offsetY;
+      const textWidth = ctx.measureText(data.labels[x.getValueForPixel(coorX)]).width + 10;
 
+      ctx.font = '12px sans-serif';
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      
       // yLabel
       ctx.beginPath();
       ctx.fillStyle = 'rgba(132, 132, 132, 1)';
       ctx.fillRect(0, coorY - 10, left, 20);
       ctx.closePath();
-
-      ctx.font = '12px sans-serif';
+      
       ctx.fillStyle = 'white';
-      ctx.textBaseline = 'middle';
-      ctx.textAlign = 'center';
       ctx.fillText(y.getValueForPixel(coorY).toFixed(2), left / 2, coorY);
+      
+      // xLabel
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(132, 132, 132, 1)';
+      ctx.fillRect(coorX - (textWidth / 2), bottom, textWidth, 20);
+      ctx.closePath();
+      
+      ctx.fillStyle = 'white';
+      ctx.fillText(data.labels[x.getValueForPixel(coorX)], coorX, bottom + 10);
+
     };
     </script>
   </body>
