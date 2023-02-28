@@ -50,12 +50,24 @@
       src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>  
     <script>
+    const dates = [];
+    const numbers = [];
+
+    for (let i = 0; i < 100; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() + i);
+      dates.push(date.setHours(0,0,0,0));
+      numbers.push(Math.random() * 10);     
+    }
+
     // setup 
     const data = {
-      labels: ['2023-02-28', '2023-03-01', '2023-03-02', '2023-03-03', '2023-03-04', '2023-03-05', '2023-03-06'],
+      labels: dates,
+      // labels: ['2023-02-28', '2023-03-01', '2023-03-02', '2023-03-03', '2023-03-04', '2023-03-05', '2023-03-06'],
       datasets: [{
         label: '取引週',
-        data: [9.33, 12, 6, 9, 12, 3, 9],
+        data: numbers,
+        // data: [9.33, 12, 6, 9, 12, 3, 9],
         // backgroundColor: [
         //   'rgba(255, 26, 104, 0.2)',
         //   'rgba(54, 162, 235, 0.2)',
@@ -67,7 +79,7 @@
         // ],
         fill: {
           target: {
-            value: 9.33
+            value: numbers[0]
           },
           below: (context) => {
             const chart = context.chart;
@@ -129,7 +141,7 @@
         ctx.fillStyle = 'white';
         ctx.textBaseline = 'middle';
         ctx.textAlign = 'center';
-        ctx.fillText(startingPoint, left / 2, y.getPixelForValue(startingPoint));
+        ctx.fillText(startingPoint.toFixed(2), left / 2, y.getPixelForValue(startingPoint));
       }
     }
 
