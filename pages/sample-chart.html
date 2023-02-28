@@ -48,10 +48,11 @@
     </div>
     <script type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>  
     <script>
     // setup 
     const data = {
-      labels: ['月', '火', '水', '木', '金', '土', '日'],
+      labels: ['2023-02-28', '2023-03-01', '2023-03-02', '2023-03-03', '2023-03-04', '2023-03-05', '2023-03-06'],
       datasets: [{
         label: '取引週',
         data: [9.33, 12, 6, 9, 12, 3, 9],
@@ -143,6 +144,12 @@
           }
         },
         scales: {
+          x: {
+            type: 'time', // use 'timeseries' to skip weekends
+            time: {
+              unit: 'day'
+            }
+          },
           y: {
             beginAtZero: true
           }
@@ -240,7 +247,7 @@
     
       const coorX = mousemove.offsetX;
       const coorY = mousemove.offsetY;
-      const textWidth = ctx.measureText(data.labels[x.getValueForPixel(coorX)]).width + 10;
+      const textWidth = ctx.measureText(new Date(x.getValueForPixel(coorX))).width + 10;
       
       ctx.font = '12px sans-serif';
       ctx.textBaseline = 'middle';
@@ -262,7 +269,7 @@
       ctx.closePath();
       
       ctx.fillStyle = 'white';
-      ctx.fillText(data.labels[x.getValueForPixel(coorX)], coorX, bottom + 10);
+      ctx.fillText(new Date(x.getValueForPixel(coorX)), coorX, bottom + 10);
 
     };
     
