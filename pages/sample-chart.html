@@ -213,6 +213,11 @@
       if(shift > 1) {
         shift = 1;
       }
+      
+      if(shift < 0) {
+        shift = 0;
+      }
+
 
       gradientBorder.addColorStop(0, 'rgba(75, 192, 192, 1)');
       gradientBorder.addColorStop(shift, 'rgba(75, 192, 192, 1)');
@@ -353,28 +358,53 @@
       ctx.stroke();
     }
 
-    function zoom(chart, wheel){
+    function zoom(chart, mousewheel){
       const min = chart.config.options.scales.x.min;
       const max = chart.config.options.scales.x.max;
-      console.log(wheel.wheelDeltaY);
+      console.log(mousewheel.wheelDeltaY);
 
-      if(wheel.wheelDeltaY >= 0) {
+      const timestamp = chart.scales.x.getValueForPixel(mousewheel.offsetX);
+      const dayTimestamp = new Date(timestamp).setHours(0,0,0,0);
+      const scrollPoint = dates.indexOf(dayTimestamp);
+
+      if(mousewheel.wheelDeltaY >= 0) {
         chart.config.options.scales.x.min = dates[dates.indexOf(min) + 1]
         chart.config.options.scales.x.max = dates[dates.indexOf(max) - 1]
 
         if(dates[dates.indexOf(min)] <= 0) {
           chart.config.options.scales.x.min = dates[0];
         }
+
+        if(dates.indexOf(min) >= scrollPoint - 4 && dates.indexOf(min) <= scrollPoint) {
+          chart.config.options.scales.x.min = min;
+        }
+
+        if(dates.indexOf(max) <= scrollPoint + 4 && dates.indexOf(max) >= scrollPoint) {
+          chart.config.options.scales.x.max = max;
+        }
       }
       
-      if(wheel.wheelDeltaY < 0) {
+      if(mousewheel.wheelDeltaY < 0) {
         chart.config.options.scales.x.min = dates[dates.indexOf(min) - 1]
         chart.config.options.scales.x.max = dates[dates.indexOf(max) + 1]
 
         if(dates[dates.indexOf(max)] >= dates[dates.length - 1]) {
           chart.config.options.scales.x.max = dates[dates.length - 1];
         }
-      }
+
+        const weekms = 86400000 * 14;
+        const range = max - min;
+        console.log(range);
+        if(range >= weekms) {
+          if(dates.indexOf(min) >= scrollPoint - 4 && dates.indexOf(min) <= scrollPoint) {
+            chart.config.options.scales.x.min = min;
+          }
+  
+          if(dates.indexOf(max) <= scrollPoint + 4 && dates.indexOf(max) >= scrollPoint) {
+            chart.config.options.scales.x.max = max;
+          }
+        }
+      };
 
       // if(dates[dates.indexOf(min)] <= 0) {
       //   chart.config.options.scales.x.min = dates[0];
