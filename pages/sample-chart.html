@@ -55,15 +55,15 @@
       datasets: [{
         label: '取引週',
         data: [9.33, 12, 6, 9, 12, 3, 9],
-        backgroundColor: [
-          'rgba(255, 26, 104, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(0, 0, 0, 0.2)'
-        ],
+        // backgroundColor: [
+        //   'rgba(255, 26, 104, 0.2)',
+        //   'rgba(54, 162, 235, 0.2)',
+        //   'rgba(255, 206, 86, 0.2)',
+        //   'rgba(75, 192, 192, 0.2)',
+        //   'rgba(153, 102, 255, 0.2)',
+        //   'rgba(255, 159, 64, 0.2)',
+        //   'rgba(0, 0, 0, 0.2)'
+        // ],
         fill: {
           target: {
             value: 9.33
@@ -273,13 +273,15 @@
       const coorY = mousemove.offsetY;
       
       ctx.beginPath();
-      ctx.fillStyle = 'rgba(255, 26, 104, 1)';
-      ctx.strokeStyle = '#666';
+      // ctx.fillStyle = 'rgba(255, 26, 104, 1)';
+      ctx.strokeStyle = '#FFF';
       ctx.lineWidth = 3;
       ctx.setLineDash([]);
       
       const angle = Math.PI / 180;
       const segments = x._gridLineItems.length - 1;
+      const yOpening = y.getPixelForValue(data.datasets[0].data[0]); // solid
+      
       for(let i = 0; i < segments; i++) {
         // console.log(x._gridLineItems[i].tx1);
         // console.log(x._gridLineItems[i+1].tx1);
@@ -288,10 +290,18 @@
           let yStart = y.getPixelForValue(data.datasets[0].data[i]);
           let yEnd = y.getPixelForValue(data.datasets[0].data[i+1]);
 
+          let yInterpolation = yStart + ((yEnd - yStart) / (width / segments) * (coorX - x._gridLineItems[i].tx1));
+
+          if(yOpening >= yInterpolation){
+            ctx.fillStyle = 'rgba(75, 192, 192, 1)';
+          } else {
+            ctx.fillStyle = 'rgba(255, 26, 104, 1)';
+          }
+
           // draw the circle
           ctx.arc(
             coorX,
-            yStart + ((yEnd - yStart) / (width / segments) * (coorX - x._gridLineItems[i].tx1)),
+            yInterpolation,
             5,
             angle * 0,
             angle * 360,
