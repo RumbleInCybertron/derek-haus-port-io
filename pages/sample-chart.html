@@ -247,7 +247,7 @@
     
       const coorX = mousemove.offsetX;
       const coorY = mousemove.offsetY;
-      const textWidth = ctx.measureText(new Date(x.getValueForPixel(coorX))).width + 10;
+      const textWidth = ctx.measureText(new Date(x.getValueForPixel(coorX)).toLocaleString()).width + 10;
       
       ctx.font = '12px sans-serif';
       ctx.textBaseline = 'middle';
@@ -269,7 +269,7 @@
       ctx.closePath();
       
       ctx.fillStyle = 'white';
-      ctx.fillText(new Date(x.getValueForPixel(coorX)), coorX, bottom + 10);
+      ctx.fillText(new Date(x.getValueForPixel(coorX)).toLocaleString(), coorX, bottom + 10);
 
     };
     
