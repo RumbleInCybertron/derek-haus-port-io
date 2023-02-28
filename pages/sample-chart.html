@@ -185,7 +185,12 @@
       const  {left, right, top, bottom, width, height} = chartArea;
       const {x,y} = scales;
       const gradientBorder = ctx.createLinearGradient(0,0,0,bottom);
-      const shift = y.getPixelForValue(data.datasets[0].data[0]) / bottom; // pixel percentage shift
+      let shift = y.getPixelForValue(data.datasets[0].data[0]) / bottom; // pixel percentage shift
+      
+      if(shift > 1) {
+        shift = 1;
+      }
+
       gradientBorder.addColorStop(0, 'rgba(75, 192, 192, 1)');
       gradientBorder.addColorStop(shift, 'rgba(75, 192, 192, 1)');
       gradientBorder.addColorStop(shift, 'rgba(255, 26, 104, 1)');
