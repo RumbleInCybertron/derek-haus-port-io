@@ -44,6 +44,7 @@
     <div class="chartCard">
       <div class="chartBox">
         <canvas id="myChart"></canvas>
+        <canvas id="myChart2"></canvas>
       </div>
     </div>
     <script type="text/javascript"
@@ -439,6 +440,72 @@
       zoom(myChart, e);
     })
 
+    // setup 
+    const data2 = {
+      labels: dates,
+      datasets: [{
+        label: '取引週',
+        data: numbers,
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        fill: true,
+        pointRadius: 0,
+        pointHoverRadius: 0,
+      }]
+    };
+
+    // config 
+    const config2 = {
+      type: 'line',
+      data: data2,
+      options: {
+        layout: {
+          padding: {
+            left: myChart.chartArea.left,
+            right: myChart.width - myChart.chartArea.right,
+          },
+        },
+        aspectRatio: 10,
+        scales: {
+          x: {
+            type: 'time', // use 'timeseries' to skip weekends
+            time: {
+              unit: 'day'
+            },
+            min: dates[0],
+            max: dates[dates.length - 1],
+            grid: {
+              display: false
+            },
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              display: false,
+            },
+            grid: {
+              display: false
+            },
+          }
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            enabled: false,
+          },
+        }
+      }
+    };
+
+    // render init block
+    const myChart2 = new Chart(
+      document.getElementById('myChart2'),
+      config2
+    );
+
+    console.log(myChart.chartArea);
     </script>
   </body>
 </html>
