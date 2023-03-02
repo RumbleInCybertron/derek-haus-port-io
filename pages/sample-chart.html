@@ -570,12 +570,16 @@
       });
 
       function mouseCursor(mousemove) {
-        console.log("hello")
-        console.log(mousemove.offsetX)
-        if (mousemove.offsetX >= x.getPixelForValue(min) - 10 && mousemove.offsetX <= x.getPixelForValue(min) + 10 || mousemove.offsetX > x.getPixelForValue(max) - 10 && mousemove.offsetX < x.getPixelForValue(max) + 10) {
-          canvas.style.cursor = 'ew-resize'; // east-west resize
-        } else if (mousemove.offsetX > x.getPixelForValue(min) + 10 && mousemove.offsetX < x.getPixelForValue(max) - 10) {
-          canvas.style.cursor = 'move';
+        if (
+          mousemove.offsetX >= x.getPixelForValue(myChart.config.options.scales.x.min) - 10 
+            && mousemove.offsetX <= x.getPixelForValue(myChart.config.options.scales.x.min) + 10 
+            || mousemove.offsetX > x.getPixelForValue(myChart.config.options.scales.x.max) - 10 
+            && mousemove.offsetX < x.getPixelForValue(myChart.config.options.scales.x.max) + 10) {
+              canvas.style.cursor = 'ew-resize'; // east-west resize
+        } else if (
+          mousemove.offsetX > x.getPixelForValue(myChart.config.options.scales.x.min) + 10 
+            && mousemove.offsetX < x.getPixelForValue(myChart.config.options.scales.x.max) - 10) {
+              canvas.style.cursor = 'move';
         } else {
           canvas.style.cursor = 'default';
         }
@@ -590,7 +594,8 @@
       })
 
       function dragStart(drag) {
-        if(drag.offsetX >= x.getPixelForValue(min) - 10 && drag.offsetX <= x.getPixelForValue(min) + 10) {
+        if(drag.offsetX >= x.getPixelForValue(myChart.config.options.scales.x.min) - 10 
+            && drag.offsetX <= x.getPixelForValue(myChart.config.options.scales.x.min) + 10) {
           canvas.onmousemove = (e) => {
             dragMove(myChart, e);
           };
@@ -607,7 +612,8 @@
           }
         };
    
-        if(drag.offsetX >= x.getPixelForValue(max) - 10 && drag.offsetX <= x.getPixelForValue(max) + 10) {
+        if(drag.offsetX >= x.getPixelForValue(myChart.config.options.scales.x.max) - 10 
+            && drag.offsetX <= x.getPixelForValue(myChart.config.options.scales.x.max) + 10) {
           canvas.onmousemove = (e) => {
             dragMove(myChart, e);
           };
