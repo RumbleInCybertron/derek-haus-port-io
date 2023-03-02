@@ -576,6 +576,46 @@
           canvas.style.cursor = 'default';
         }
       };
+
+      canvas.addEventListener('mousedown', (e) => {
+        dragStart(e);
+      });
+      
+      canvas.addEventListener('mouseup', (e) => {
+        canvas.onmousemove = null;
+      })
+
+      function dragStart(drag) {
+        if(drag.offsetX >= x.getPixelForValue(min) - 10 && drag.offsetX <= x.getPixelForValue(min) + 10) {
+          canvas.onmousemove = (e) => {
+            dragMove(myChart, e);
+          };
+
+          function dragMove(myChart, dragDelta) {
+            const timestamp = x.getValueForPixel(dragDelta.offsetX);
+            const dayTimestamp = new Date(timestamp).setHours(0, 0, 0, 0);
+            const scrollPoint = dates.indexOf(dayTimestamp);
+
+            myChart.config.options.scales.x.min = dates[scrollPoint];
+            myChart.update('none');
+          }
+        };
+   
+        if(drag.offsetX >= x.getPixelForValue(max) - 10 && drag.offsetX <= x.getPixelForValue(max) + 10) {
+          canvas.onmousemove = (e) => {
+            dragMove(myChart, e);
+          };
+
+          function dragMove(myChart, dragDelta) {
+            const timestamp = x.getValueForPixel(dragDelta.offsetX);
+            const dayTimestamp = new Date(timestamp).setHours(0, 0, 0, 0);
+            const scrollPoint = dates.indexOf(dayTimestamp);
+
+            myChart.config.options.scales.x.max = dates[scrollPoint];
+            myChart.update('none');
+          };
+        };
+      };
     };
   </script>
 </body>
