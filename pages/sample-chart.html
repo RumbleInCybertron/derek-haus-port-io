@@ -181,6 +181,44 @@
       }
     };
 
+    // customTickMarks plugin block
+    const customTickMarks = {
+      id: 'customTickMarks',
+      beforeDatasetsDraw(chart, args, pluginOptions) {
+        const { ctx, data, chartArea: {bottom}, scales: {x,y} } = chart;
+        ctx.save();
+        const startTick = dates.indexOf(x.min);
+        const endTick = dates.indexOf(x.max);
+        const totalTicks = endTick - startTick;
+        console.log(totalTicks);
+
+        dates.forEach((date, index) => {
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(102, 102, 102, 0.5)';
+          ctx.lineWidth = 1;
+
+          if(new Date(date).getDate() === 1) {
+            ctx.moveTo(x.getPixelForValue(new Date(date)), bottom);
+            ctx.lineTo(x.getPixelForValue(new Date(date)), bottom + 8);
+          }
+
+          if(new Date(date).getDate() === 10 || new Date(date).getDate() === 20) {
+            ctx.moveTo(x.getPixelForValue(new Date(date)), bottom);
+            ctx.lineTo(x.getPixelForValue(new Date(date)), bottom + 8);
+          }
+
+          if(totalTicks < 40) {
+            ctx.moveTo(x.getPixelForValue(new Date(date)), bottom);
+            ctx.lineTo(x.getPixelForValue(new Date(date)), bottom + 8);
+          }
+
+          ctx.stroke();
+          ctx.closePath();
+          ctx.restore();
+        })
+      }
+    };
+
     // config 
     const config = {
       type: 'line',
@@ -248,10 +286,13 @@
         plugins: {
           legend: {
             display: false,
-          }
+          },
+          tooltip: {
+            enabled: false
+          },
         }
       },
-      plugins: [dottedLine, imageLogo]
+      plugins: [dottedLine, imageLogo, customTickMarks]
     };
 
     // render init block
