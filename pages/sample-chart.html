@@ -670,6 +670,11 @@
         };
       };
     };
+
+    window.addEventListener('resize', (e) => {
+      myChart2.resize();
+      zoomBox(myChart.config.options.scales.z.min, myChart.config.options.scales.x.max);
+    });
   </script>
 </body>
 
