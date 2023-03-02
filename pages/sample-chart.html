@@ -208,8 +208,7 @@
                 const totalTicks = values.length - 2;
                 const monthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 const currentTick = new Date(values[index].value);
-                console.log(currentTick);
-
+                
                 if(currentTick.getDate() === 1) {
                   return monthArray[currentTick.getMonth()];
                 }
@@ -217,7 +216,17 @@
                   || currentTick.getDate() === 20) {
                   return currentTick.getDate();
                 }
-              })
+                if(totalTicks < 40) {
+                  return currentTick.getDate();
+                }
+              }),
+              font: {
+                weight: (values) => {
+                  if(values.tick.label.length === 3) {
+                    return 'bold';
+                  }
+                }
+              }
             }
           },
           y: {
