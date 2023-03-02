@@ -450,6 +450,7 @@
         fill: true,
         pointRadius: 0,
         pointHoverRadius: 0,
+        pointHitRadius: 0,
       }]
     };
 
@@ -458,6 +459,7 @@
       type: 'line',
       data: data2,
       options: {
+        animation: false,
         layout: {
           padding: {
             left: myChart.chartArea.left - myChart.config.options.layout.padding.left,
@@ -503,6 +505,10 @@
       document.getElementById('myChart2'),
       config2
     );
+
+    window.onload = function () {
+      zoomBox(dates[0], dates[dates.length - 1]);
+    };
 
     function zoomedArea(min, max) {
       // area
