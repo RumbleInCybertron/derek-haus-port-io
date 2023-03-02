@@ -1,56 +1,62 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>君の名は</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        font-family: sans-serif;
-      }
-      .chartMenu {
-        width: 100vw;
-        height: 40px;
-        background: #1A1A1A;
-        color: rgba(54, 162, 235, 1);
-      }
-      .chartMenu p {
-        padding: 10px;
-        font-size: 20px;
-      }
-      .chartCard {
-        width: 100vw;
-        height: calc(100vh - 40px);
-        background: rgba(54, 162, 235, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .chartBox {
-        width: 700px;
-        padding: 20px;
-        border-radius: 20px;
-        border: solid 3px rgba(54, 162, 235, 1);
-        background: white;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="chartMenu">
-      <p>キツネコムのチャートパル</p>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>君の名は</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+
+    .chartMenu {
+      width: 100vw;
+      height: 40px;
+      background: #1A1A1A;
+      color: rgba(54, 162, 235, 1);
+    }
+
+    .chartMenu p {
+      padding: 10px;
+      font-size: 20px;
+    }
+
+    .chartCard {
+      width: 100vw;
+      height: calc(100vh - 40px);
+      background: rgba(54, 162, 235, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chartBox {
+      width: 700px;
+      padding: 20px;
+      border-radius: 20px;
+      border: solid 3px rgba(54, 162, 235, 1);
+      background: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="chartMenu">
+    <p>キツネコムのチャートパル</p>
+  </div>
+  <div class="chartCard">
+    <div class="chartBox">
+      <canvas id="myChart"></canvas>
+      <canvas id="myChart2"></canvas>
     </div>
-    <div class="chartCard">
-      <div class="chartBox">
-        <canvas id="myChart"></canvas>
-        <canvas id="myChart2"></canvas>
-      </div>
-    </div>
-    <script type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>  
-    <script>
+  </div>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script>
     const dates = [];
     const numbers = [];
     const volume = [];
@@ -58,9 +64,9 @@
     for (let i = 0; i < 100; i++) {
       const date = new Date();
       date.setDate(date.getDate() + i);
-      dates.push(date.setHours(0,0,0,0));
-      numbers.push(Math.random() * 10);     
-      volume.push(Math.random() * 100);     
+      dates.push(date.setHours(0, 0, 0, 0));
+      numbers.push(Math.random() * 10);
+      volume.push(Math.random() * 100);
     }
 
     // setup 
@@ -86,16 +92,16 @@
           },
           below: (context) => {
             const chart = context.chart;
-            const {ctx, chartArea, data, scales} = chart;
-            if(!chartArea) {
+            const { ctx, chartArea, data, scales } = chart;
+            if (!chartArea) {
               return null;
             }
             return belowGradient(ctx, chartArea, data, scales);
           },
           above: (context) => {
             const chart = context.chart;
-            const {ctx, chartArea, data, scales} = chart;
-            if(!chartArea) {
+            const { ctx, chartArea, data, scales } = chart;
+            if (!chartArea) {
               return null;
             }
             return aboveGradient(ctx, chartArea, data, scales);
@@ -103,8 +109,8 @@
         },
         borderColor: (context) => {
           const chart = context.chart;
-          const {ctx, chartArea, data, scales} = chart;
-          if(!chartArea) {
+          const { ctx, chartArea, data, scales } = chart;
+          if (!chartArea) {
             return null;
           }
           return getGradient(ctx, chartArea, data, scales);
@@ -128,9 +134,9 @@
     const dottedLine = {
       id: 'dottedLine',
       beforeDatasetsDraw(chart, args, pluginOptions) {
-        const  { ctx, data, chartArea: {left, right, width}, scales: {x, y} } = chart;
+        const { ctx, data, chartArea: { left, right, width }, scales: { x, y } } = chart;
         const startingPoint = data.datasets[0].data[0];
-        
+
         ctx.save();
         ctx.beginPath();
         ctx.lineWidth = 1;
@@ -162,11 +168,11 @@
     const imageLogo = {
       id: 'imageLogo',
       beforeDatasetsDraw(chart, args, pluginOptions) {
-        const { ctx, chartArea: {top, bottom, left, right}, scales: {x, y}} = chart;
+        const { ctx, chartArea: { top, bottom, left, right }, scales: { x, y } } = chart;
         ctx.save();
         const imgWidth = 80;
         const imgHeight = 30;
-        if(logo.complete) {
+        if (logo.complete) {
           ctx.drawImage(logo, right - imgWidth - 10, y.getPixelForValue(2), imgWidth, imgHeight)
         } else {
           logo.onload = () => chart.draw();
@@ -226,17 +232,17 @@
       config
     );
 
-    function getGradient (ctx, chartArea, data, scales) {
-      const  {left, right, top, bottom, width, height} = chartArea;
-      const {x,y} = scales;
-      const gradientBorder = ctx.createLinearGradient(0,0,0,bottom);
+    function getGradient(ctx, chartArea, data, scales) {
+      const { left, right, top, bottom, width, height } = chartArea;
+      const { x, y } = scales;
+      const gradientBorder = ctx.createLinearGradient(0, 0, 0, bottom);
       let shift = y.getPixelForValue(data.datasets[0].data[0]) / bottom; // pixel percentage shift
-      
-      if(shift > 1) {
+
+      if (shift > 1) {
         shift = 1;
       }
-      
-      if(shift < 0) {
+
+      if (shift < 0) {
         shift = 0;
       }
 
@@ -247,20 +253,20 @@
       gradientBorder.addColorStop(1, 'rgba(255, 26, 104, 1)');
       return gradientBorder;
     };
-    
+
     function belowGradient(ctx, chartArea, data, scales) {
-      const  {left, right, top, bottom, width, height} = chartArea;
-      const {x,y} = scales;
-      const gradientBackground = ctx.createLinearGradient(0,y.getPixelForValue(data.datasets[0].data[0]),0,bottom);
+      const { left, right, top, bottom, width, height } = chartArea;
+      const { x, y } = scales;
+      const gradientBackground = ctx.createLinearGradient(0, y.getPixelForValue(data.datasets[0].data[0]), 0, bottom);
       gradientBackground.addColorStop(0, 'rgba(255, 26, 104, 0)');
       gradientBackground.addColorStop(1, 'rgba(255, 26, 104, 0.5)');
       return gradientBackground;
     };
 
     function aboveGradient(ctx, chartArea, data, scales) {
-      const  {left, right, top, bottom, width, height} = chartArea;
-      const {x,y} = scales;
-      const gradientBackground = ctx.createLinearGradient(0,y.getPixelForValue(data.datasets[0].data[0]),0,top);
+      const { left, right, top, bottom, width, height } = chartArea;
+      const { x, y } = scales;
+      const gradientBackground = ctx.createLinearGradient(0, y.getPixelForValue(data.datasets[0].data[0]), 0, top);
       gradientBackground.addColorStop(0, 'rgba(75, 192, 192, 0)');
       gradientBackground.addColorStop(1, 'rgba(75, 192, 192, 0.5)');
       return gradientBackground;
@@ -270,7 +276,7 @@
       crosshairLine(myChart, e)
     });
 
-    function crosshairLine(chart, mousemove){
+    function crosshairLine(chart, mousemove) {
       const { canvas, ctx, chartArea: { left, right, top, bottom } } = chart;
 
       const coorX = mousemove.offsetX;
@@ -289,9 +295,9 @@
       ctx.strokeStyle = '#666';
       ctx.setLineDash([3, 3]);
 
-      if(coorX >= left && coorX <= right && coorY >= top && coorY <= bottom) {
+      if (coorX >= left && coorX <= right && coorY >= top && coorY <= bottom) {
         // Horizontal Line
-        ctx.beginPath();   
+        ctx.beginPath();
         ctx.moveTo(left, coorY);
         ctx.lineTo(right, coorY);
         ctx.stroke();
@@ -309,59 +315,59 @@
       }
     };
 
-    function crosshairLabel(chart, mousemove){
-      const { ctx, data, chartArea: {top, bottom, left, right, width, height}, scales: {x, y} } = chart;
-    
+    function crosshairLabel(chart, mousemove) {
+      const { ctx, data, chartArea: { top, bottom, left, right, width, height }, scales: { x, y } } = chart;
+
       const coorX = mousemove.offsetX;
       const coorY = mousemove.offsetY;
       const textWidth = ctx.measureText(new Date(x.getValueForPixel(coorX)).toLocaleString()).width + 10;
-      
+
       ctx.font = '12px sans-serif';
       ctx.textBaseline = 'middle';
       ctx.textAlign = 'center';
-      
+
       // yLabel
       ctx.beginPath();
       ctx.fillStyle = 'rgba(132, 132, 132, 1)';
       ctx.fillRect(0, coorY - 10, left, 20);
       ctx.closePath();
-      
+
       ctx.fillStyle = 'white';
       ctx.fillText(y.getValueForPixel(coorY).toFixed(2), left / 2, coorY);
-      
+
       // xLabel
       ctx.beginPath();
       ctx.fillStyle = 'rgba(132, 132, 132, 1)';
       ctx.fillRect(coorX - (textWidth / 2), bottom, textWidth, 20);
       ctx.closePath();
-      
+
       ctx.fillStyle = 'white';
       ctx.fillText(new Date(x.getValueForPixel(coorX)).toLocaleString(), coorX, bottom + 10);
 
     };
-    
+
     function crosshairPoint(chart, mousemove) {
-      const { ctx, data, chartArea: {top, bottom, left, right, width, height}, scales: {x, y} } = chart;
-    
+      const { ctx, data, chartArea: { top, bottom, left, right, width, height }, scales: { x, y } } = chart;
+
       const coorX = mousemove.offsetX;
       const coorY = mousemove.offsetY;
-      
+
       ctx.beginPath();
       // ctx.fillStyle = 'rgba(255, 26, 104, 1)';
       ctx.strokeStyle = '#FFF';
       ctx.lineWidth = 3;
       ctx.setLineDash([]);
-      
+
       const angle = Math.PI / 180;
       const segments = width / (dates.indexOf(x.max) - dates.indexOf(x.min));
       const yOpening = y.getPixelForValue(data.datasets[0].data[0]); // solid
       let index = Math.floor((coorX - left) / segments) + dates.indexOf(x.min);
 
       let yStart = y.getPixelForValue(data.datasets[0].data[index]);
-      let yEnd = y.getPixelForValue(data.datasets[0].data[index+1]);
+      let yEnd = y.getPixelForValue(data.datasets[0].data[index + 1]);
       let yInterpolation = yStart + ((yEnd - yStart) / segments * (coorX - x.getPixelForValue(data.labels[index])));
 
-      if(yOpening >= yInterpolation){
+      if (yOpening >= yInterpolation) {
         ctx.fillStyle = 'rgba(75, 192, 192, 1)';
       } else {
         ctx.fillStyle = 'rgba(255, 26, 104, 1)';
@@ -380,47 +386,47 @@
       ctx.stroke();
     }
 
-    function zoom(chart, mousewheel){
+    function zoom(chart, mousewheel) {
       const min = chart.config.options.scales.x.min;
       const max = chart.config.options.scales.x.max;
 
       const timestamp = chart.scales.x.getValueForPixel(mousewheel.offsetX);
-      const dayTimestamp = new Date(timestamp).setHours(0,0,0,0);
+      const dayTimestamp = new Date(timestamp).setHours(0, 0, 0, 0);
       const scrollPoint = dates.indexOf(dayTimestamp);
 
-      if(mousewheel.wheelDeltaY >= 0) {
+      if (mousewheel.wheelDeltaY >= 0) {
         chart.config.options.scales.x.min = dates[dates.indexOf(min) + 1]
         chart.config.options.scales.x.max = dates[dates.indexOf(max) - 1]
 
-        if(dates[dates.indexOf(min)] <= 0) {
+        if (dates[dates.indexOf(min)] <= 0) {
           chart.config.options.scales.x.min = dates[0];
         }
 
-        if(dates.indexOf(min) >= scrollPoint - 4 && dates.indexOf(min) <= scrollPoint) {
+        if (dates.indexOf(min) >= scrollPoint - 4 && dates.indexOf(min) <= scrollPoint) {
           chart.config.options.scales.x.min = min;
         }
 
-        if(dates.indexOf(max) <= scrollPoint + 4 && dates.indexOf(max) >= scrollPoint) {
+        if (dates.indexOf(max) <= scrollPoint + 4 && dates.indexOf(max) >= scrollPoint) {
           chart.config.options.scales.x.max = max;
         }
       }
-      
-      if(mousewheel.wheelDeltaY < 0) {
+
+      if (mousewheel.wheelDeltaY < 0) {
         chart.config.options.scales.x.min = dates[dates.indexOf(min) - 1]
         chart.config.options.scales.x.max = dates[dates.indexOf(max) + 1]
 
-        if(dates[dates.indexOf(max)] >= dates[dates.length - 1]) {
+        if (dates[dates.indexOf(max)] >= dates[dates.length - 1]) {
           chart.config.options.scales.x.max = dates[dates.length - 1];
         }
 
         const weekms = 86400000 * 14;
         const range = max - min;
-        if(range >= weekms) {
-          if(dates.indexOf(min) >= scrollPoint - 4 && dates.indexOf(min) <= scrollPoint) {
+        if (range >= weekms) {
+          if (dates.indexOf(min) >= scrollPoint - 4 && dates.indexOf(min) <= scrollPoint) {
             chart.config.options.scales.x.min = min;
           }
-  
-          if(dates.indexOf(max) <= scrollPoint + 4 && dates.indexOf(max) >= scrollPoint) {
+
+          if (dates.indexOf(max) <= scrollPoint + 4 && dates.indexOf(max) >= scrollPoint) {
             chart.config.options.scales.x.max = max;
           }
         }
@@ -514,9 +520,9 @@
     function zoomedArea(min, max) {
       // area
       myChart2.update('none');
-      const { ctx, canvas, chartArea: { top, bottom, left, right, width, height }, scales: {x,y}} = myChart2;
-      
-      if(min === undefined) min = dates[0];
+      const { ctx, canvas, chartArea: { top, bottom, left, right, width, height }, scales: { x, y } } = myChart2;
+
+      if (min === undefined) min = dates[0];
 
       ctx.save();
       ctx.beginPath();
@@ -530,7 +536,7 @@
 
       slider(x.getPixelForValue(min));
       slider(x.getPixelForValue(max));
-      function slider(position){
+      function slider(position) {
         ctx.beginPath();
         ctx.strokeStyle = 'rgba(54, 162, 235, 1)';
         ctx.lineWidth = 2;
@@ -562,15 +568,16 @@
       function mouseCursor(mousemove) {
         console.log("hello")
         console.log(mousemove.offsetX)
-        if(mousemove.offsetX >= x.getPixelForValue(min) - 10 && mousemove.offsetX <= x.getPixelForValue(min) + 10 || mousemove.offsetX > x.getPixelForValue(max) - 10 && mousemove.offsetX < x.getPixelForValue(max) + 10) {
+        if (mousemove.offsetX >= x.getPixelForValue(min) - 10 && mousemove.offsetX <= x.getPixelForValue(min) + 10 || mousemove.offsetX > x.getPixelForValue(max) - 10 && mousemove.offsetX < x.getPixelForValue(max) + 10) {
           canvas.style.cursor = 'ew-resize'; // east-west resize
-        } else if(mousemove.offsetX > x.getPixelForValue(min) + 10 && mousemove.offsetX < x.getPixelForValue(max) - 10){
+        } else if (mousemove.offsetX > x.getPixelForValue(min) + 10 && mousemove.offsetX < x.getPixelForValue(max) - 10) {
           canvas.style.cursor = 'move';
         } else {
           canvas.style.cursor = 'default';
         }
       };
     };
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>
