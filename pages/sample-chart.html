@@ -61,7 +61,7 @@
     const numbers = [];
     const volume = [];
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 200; i++) {
       const date = new Date();
       date.setDate(date.getDate() + i);
       dates.push(date.setHours(0, 0, 0, 0));
@@ -199,7 +199,26 @@
               unit: 'day'
             },
             min: dates[0],
-            max: dates[dates.length - 1]
+            max: dates[dates.length - 1],
+            grid: {
+              display: false
+            },
+            ticks: {
+              callback: ((value, index, values) => {
+                const totalTicks = values.length - 2;
+                const monthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                const currentTick = new Date(values[index].value);
+                console.log(currentTick);
+
+                if(currentTick.getDate() === 1) {
+                  return monthArray[currentTick.getMonth()];
+                }
+                if(currentTick.getDate() === 10
+                  || currentTick.getDate() === 20) {
+                  return currentTick.getDate();
+                }
+              })
+            }
           },
           y: {
             beginAtZero: true
@@ -576,6 +595,7 @@
 
       function mouseCursor(mousemove) {
         let minChart1 = myChart.config.options.scales.x.min;
+
         if (minChart1 === undefined || minChart1 === -1) {
           minChart1 = dates[0];
         };
@@ -605,6 +625,7 @@
 
       function dragStart(drag) {
         let minChart1 = myChart.config.options.scales.x.min;
+        let maxChart1 = myChart.config.options.scales.x.max;
         if (minChart1 === undefined || minChart1 === -1) {
           minChart1 = dates[0];
         };
@@ -672,12 +693,11 @@
         if (drag.offsetX > x.getPixelForValue(myChart.config.options.scales.x.min) + 11
           && drag.offsetX < x.getPixelForValue(myChart.config.options.scales.x.max) - 11) {
           canvas.onmousemove = (e) => {
-            dragMoveCenter(myChart, e);
+            dragMoveCenter(myChart, e, minChart1, maxChart1);
           };
 
-          function dragMoveCenter(myChart, dragDelta) {
+          function dragMoveCenter(myChart, dragDelta, staticScaleMin, staticScaleMax) {
             // starting point
-            console.log(dragDelta);
             const dragStartingPoint = x.getValueForPixel(drag.offsetX);
             const dayDragStartingPoint = new Date(dragStartingPoint).setHours(0, 0, 0, 0);
             let dragStart = dates.indexOf(dayDragStartingPoint);
@@ -688,18 +708,43 @@
             let scrollPoint = dates.indexOf(dayTimestamp);
 
             const difference = scrollPoint - dragStart;
-            let difference2 = 0;
 
-            if (dragDelta.movementX > 0) {
-              difference2 = 1;
+            if(scrollPoint === -1 && dragDelta.offsetX >= right) {
+              scrollPoint = dates.length - 1;
+            };
+
+            const range = dates.indexOf(staticScaleMax) - dates.indexOf(staticScaleMin);
+            const minVal = dates.indexOf(staticScaleMax) + difference - range; // 0
+            const maxVal = dates.indexOf(staticScaleMax) + difference; // 199
+
+            let minChart1;
+            let maxChart1;
+
+            if(minVal <= 0 && dragDelta.offsetX < right) {
+              minChart1 = dates[0];
+              maxChart1 = dates[range];
+            } else if(maxVal >= dates.length - 1
+                || difference < 0
+                && dragDelta.offsetX >= right) {
+              minChart1 = dates[dates.length - 1 - range];
+              maxChart1 = dates[dates.length - 1];
+            } else {
+              minChart1 = dates[dates.indexOf(staticScaleMin) + difference];
+              maxChart1 = dates[dates.indexOf(staticScaleMax) + difference];
             }
 
-            if (dragDelta.movementX < 0) {
-              difference2 = -1;
-            }
+            // let difference2 = 0;
 
-            let minChart1 = dates[dates.indexOf(myChart.config.options.scales.x.min) + difference2];
-            let maxChart1 = dates[dates.indexOf(myChart.config.options.scales.x.max) + difference2];
+            // if (dragDelta.movementX > 0) {
+            //   difference2 = 1;
+            // }
+
+            // if (dragDelta.movementX < 0) {
+            //   difference2 = -1;
+            // }
+
+            // let minChart1 = dates[dates.indexOf(myChart.config.options.scales.x.min) + difference];
+            // let maxChart1 = dates[dates.indexOf(myChart.config.options.scales.x.max) + difference];
 
             if (minChart1 === undefined) {
               minChart1 = dates[0];
@@ -731,7 +776,7 @@
 
     window.addEventListener('resize', (e) => {
       myChart2.resize();
-      zoomedArea(myChart.config.options.scales.z.min, myChart.config.options.scales.x.max);
+      zoomedArea(myChart.config.options.scales.x.min, myChart.config.options.scales.x.max);
     });
   </script>
 </body>
