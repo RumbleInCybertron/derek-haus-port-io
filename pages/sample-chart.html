@@ -603,7 +603,19 @@
           function dragMove(myChart, dragDelta) {
             const timestamp = x.getValueForPixel(dragDelta.offsetX);
             const dayTimestamp = new Date(timestamp).setHours(0, 0, 0, 0);
-            const scrollPoint = dates.indexOf(dayTimestamp);
+            let scrollPoint = dates.indexOf(dayTimestamp);
+
+            if(dragDelta.offsetX < left && scrollPoint === -1) {
+              scrollPoint = 0;
+            }
+
+            if(dragDelta.offsetX > right && scrollPoint === -1) {
+              scrollPoint = dates.indexOf(myChart.config.options.scales.x.max) - 4;
+            }
+
+            if(scrollPoint > dates.indexOf(myChart.config.options.scales.x.max) - 4) {
+              scrollPoint = dates.indexOf(myChart.config.options.scales.x.max) - 4;
+            }
 
             myChart.config.options.scales.x.min = dates[scrollPoint];
             myChart.update('none');
@@ -621,7 +633,19 @@
           function dragMove(myChart, dragDelta) {
             const timestamp = x.getValueForPixel(dragDelta.offsetX);
             const dayTimestamp = new Date(timestamp).setHours(0, 0, 0, 0);
-            const scrollPoint = dates.indexOf(dayTimestamp);
+            let scrollPoint = dates.indexOf(dayTimestamp);
+
+            if(dragDelta.offsetX > right && scrollPoint === -1) {
+              scrollPoint = dates.length - 1;
+            }
+
+            if(dragDelta.offsetX < left && scrollPoint === -1) {
+              scrollPoint = dates.indexOf(myChart.config.options.scales.x.min) + 4;
+            }
+
+            if(scrollPoint < dates.indexOf(myChart.config.options.scales.x.min) + 4) {
+              scrollPoint = dates.indexOf(myChart.config.options.scales.x.min) + 4;
+            }
 
             myChart.config.options.scales.x.max = dates[scrollPoint];
             myChart.update('none');
