@@ -526,6 +526,11 @@
 
       zoomedAreaItem(min, max);
       function zoomedAreaItem(min, max) {
+
+        if(min === undefined || min === -1) {
+          min = dates[0];
+        }
+
         ctx.save();
         ctx.beginPath();
         ctx.fillStyle = 'rgba(54, 162, 235, 0.4)';
@@ -570,14 +575,19 @@
       });
 
       function mouseCursor(mousemove) {
+        let minChart1 = myChart.config.options.scales.x.min;
+        if(minChart1 === undefined || minChart1 === -1) {
+          minChart1 = dates[0];
+        };
+
         if (
-          mousemove.offsetX >= x.getPixelForValue(myChart.config.options.scales.x.min) - 10 
-            && mousemove.offsetX <= x.getPixelForValue(myChart.config.options.scales.x.min) + 10 
+          mousemove.offsetX >= x.getPixelForValue(minChart1) - 10 
+            && mousemove.offsetX <= x.getPixelForValue(minChart1) + 10 
             || mousemove.offsetX > x.getPixelForValue(myChart.config.options.scales.x.max) - 10 
             && mousemove.offsetX < x.getPixelForValue(myChart.config.options.scales.x.max) + 10) {
               canvas.style.cursor = 'ew-resize'; // east-west resize
         } else if (
-          mousemove.offsetX > x.getPixelForValue(myChart.config.options.scales.x.min) + 10 
+          mousemove.offsetX > x.getPixelForValue(minChart1) + 10 
             && mousemove.offsetX < x.getPixelForValue(myChart.config.options.scales.x.max) - 10) {
               canvas.style.cursor = 'move';
         } else {
@@ -594,8 +604,13 @@
       })
 
       function dragStart(drag) {
-        if(drag.offsetX >= x.getPixelForValue(myChart.config.options.scales.x.min) - 10 
-            && drag.offsetX <= x.getPixelForValue(myChart.config.options.scales.x.min) + 10) {
+        let minChart1 = myChart.config.options.scales.x.min;
+        if(minChart1 === undefined || minChart1 === -1) {
+          minChart1 = dates[0];
+        };
+
+        if(drag.offsetX >= x.getPixelForValue(minChart1) - 10 
+            && drag.offsetX <= x.getPixelForValue(minChart1) + 10) {
           canvas.onmousemove = (e) => {
             dragMove(myChart, e);
           };
