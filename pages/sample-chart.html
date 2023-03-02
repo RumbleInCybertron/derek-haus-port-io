@@ -182,7 +182,8 @@
       options: {
         layout: {
           padding: {
-            left: 10
+            left: 10,
+            right: 5,
           }
         },
         scales: {
@@ -507,13 +508,13 @@
     );
 
     window.onload = function () {
-      zoomBox(dates[0], dates[dates.length - 1]);
+      zoomedArea(dates[0], dates[dates.length - 1]);
     };
 
     function zoomedArea(min, max) {
       // area
       myChart2.update('none');
-      const { ctx, chartArea: { top, bottom, left, right, width, height }, scales: {x,y}} = myChart2;
+      const { ctx, canvas, chartArea: { top, bottom, left, right, width, height }, scales: {x,y}} = myChart2;
       
       if(min === undefined) min = dates[0];
 
@@ -539,7 +540,36 @@
         ctx.stroke();
         ctx.closePath();
         ctx.restore();
+
+        ctx.strokeStyle = 'rgba(54, 162, 235, 1)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(position - 3, height / 2 - 5);
+        ctx.lineTo(position - 3, height / 2 + 5);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(position + 3, height / 2 - 5);
+        ctx.lineTo(position + 3, height / 2 + 5);
+        ctx.stroke();
+        ctx.restore();
       }
+
+      canvas.addEventListener('mousemove', (e) => {
+        mouseCursor(e)
+      });
+
+      function mouseCursor(mousemove) {
+        console.log("hello")
+        console.log(mousemove.offsetX)
+        if(mousemove.offsetX >= x.getPixelForValue(min) - 10 && mousemove.offsetX <= x.getPixelForValue(min) + 10 || mousemove.offsetX > x.getPixelForValue(max) - 10 && mousemove.offsetX < x.getPixelForValue(max) + 10) {
+          canvas.style.cursor = 'ew-resize'; // east-west resize
+        } else if(mousemove.offsetX > x.getPixelForValue(min) + 10 && mousemove.offsetX < x.getPixelForValue(max) - 10){
+          canvas.style.cursor = 'move';
+        } else {
+          canvas.style.cursor = 'default';
+        }
+      };
     };
     </script>
   </body>
