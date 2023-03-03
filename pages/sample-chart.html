@@ -250,21 +250,21 @@
                 const totalTicks = values.length - 2;
                 const monthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 const currentTick = new Date(values[index].value);
-                
-                if(currentTick.getDate() === 1) {
+
+                if (currentTick.getDate() === 1) {
                   return monthArray[currentTick.getMonth()];
                 }
-                if(currentTick.getDate() === 10
+                if (currentTick.getDate() === 10
                   || currentTick.getDate() === 20) {
                   return currentTick.getDate();
                 }
-                if(totalTicks < 40) {
+                if (totalTicks < 40) {
                   return currentTick.getDate();
                 }
               }),
               font: {
                 weight: (values) => {
-                  if(values.tick.label.length === 3) {
+                  if (values.tick.label.length === 3) {
                     return 'bold';
                   }
                 }
@@ -567,21 +567,21 @@
                 const totalTicks = values.length - 2;
                 const monthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 const currentTick = new Date(values[index].value);
-                
-                if(currentTick.getDate() === 1) {
+
+                if (currentTick.getDate() === 1) {
                   return monthArray[currentTick.getMonth()];
                 }
-                if(currentTick.getDate() === 10
+                if (currentTick.getDate() === 10
                   || currentTick.getDate() === 20) {
                   return currentTick.getDate();
                 }
-                if(totalTicks < 40) {
+                if (totalTicks < 40) {
                   return currentTick.getDate();
                 }
               }),
               font: {
                 weight: (values) => {
-                  if(values.tick.label.length === 3) {
+                  if (values.tick.label.length === 3) {
                     return 'bold';
                   }
                 }
@@ -793,7 +793,7 @@
 
             const difference = scrollPoint - dragStart;
 
-            if(scrollPoint === -1 && dragDelta.offsetX >= right) {
+            if (scrollPoint === -1 && dragDelta.offsetX >= right) {
               scrollPoint = dates.length - 1;
             };
 
@@ -804,12 +804,12 @@
             let minChart1;
             let maxChart1;
 
-            if(minVal <= 0 && dragDelta.offsetX < right) {
+            if (minVal <= 0 && dragDelta.offsetX < right) {
               minChart1 = dates[0];
               maxChart1 = dates[range];
-            } else if(maxVal >= dates.length - 1
-                || difference < 0
-                && dragDelta.offsetX >= right) {
+            } else if (maxVal >= dates.length - 1
+              || difference < 0
+              && dragDelta.offsetX >= right) {
               minChart1 = dates[dates.length - 1 - range];
               maxChart1 = dates[dates.length - 1];
             } else {
