@@ -181,43 +181,43 @@
       }
     };
 
-    // customTickMarks plugin block
-    const customTickMarks = {
-      id: 'customTickMarks',
-      beforeDatasetsDraw(chart, args, pluginOptions) {
-        const { ctx, data, chartArea: {bottom}, scales: {x,y} } = chart;
-        ctx.save();
-        const startTick = dates.indexOf(x.min);
-        const endTick = dates.indexOf(x.max);
-        const totalTicks = endTick - startTick;
-        console.log(totalTicks);
+    // // customTickMarks plugin block
+    // const customTickMarks = {
+    //   id: 'customTickMarks',
+    //   beforeDatasetsDraw(chart, args, pluginOptions) {
+    //     const { ctx, data, chartArea: {bottom}, scales: {x,y} } = chart;
+    //     ctx.save();
+    //     const startTick = dates.indexOf(x.min);
+    //     const endTick = dates.indexOf(x.max);
+    //     const totalTicks = endTick - startTick;
+    //     console.log(totalTicks);
 
-        dates.forEach((date, index) => {
-          ctx.beginPath();
-          ctx.strokeStyle = 'rgba(102, 102, 102, 0.5)';
-          ctx.lineWidth = 1;
+    //     dates.forEach((date, index) => {
+    //       ctx.beginPath();
+    //       ctx.strokeStyle = 'rgba(102, 102, 102, 0.5)';
+    //       ctx.lineWidth = 1;
 
-          if(new Date(date).getDate() === 1) {
-            ctx.moveTo(x.getPixelForValue(new Date(date)), bottom);
-            ctx.lineTo(x.getPixelForValue(new Date(date)), bottom + 8);
-          }
+    //       if(new Date(date).getDate() === 1) {
+    //         ctx.moveTo(x.getPixelForValue(new Date(date)), bottom);
+    //         ctx.lineTo(x.getPixelForValue(new Date(date)), bottom + 8);
+    //       }
 
-          if(new Date(date).getDate() === 10 || new Date(date).getDate() === 20) {
-            ctx.moveTo(x.getPixelForValue(new Date(date)), bottom);
-            ctx.lineTo(x.getPixelForValue(new Date(date)), bottom + 8);
-          }
+    //       if(new Date(date).getDate() === 10 || new Date(date).getDate() === 20) {
+    //         ctx.moveTo(x.getPixelForValue(new Date(date)), bottom);
+    //         ctx.lineTo(x.getPixelForValue(new Date(date)), bottom + 8);
+    //       }
 
-          if(totalTicks < 40) {
-            ctx.moveTo(x.getPixelForValue(new Date(date)), bottom);
-            ctx.lineTo(x.getPixelForValue(new Date(date)), bottom + 8);
-          }
+    //       if(totalTicks < 40) {
+    //         ctx.moveTo(x.getPixelForValue(new Date(date)), bottom);
+    //         ctx.lineTo(x.getPixelForValue(new Date(date)), bottom + 8);
+    //       }
 
-          ctx.stroke();
-          ctx.closePath();
-          ctx.restore();
-        })
-      }
-    };
+    //       ctx.stroke();
+    //       ctx.closePath();
+    //       ctx.restore();
+    //     })
+    //   }
+    // };
 
     // config 
     const config = {
@@ -239,7 +239,11 @@
             min: dates[0],
             max: dates[dates.length - 1],
             grid: {
-              display: false
+              // display: false
+              drawOnChartArea: false,
+              drawTicks: true,
+              drawBorder: false,
+              offset: false,
             },
             ticks: {
               callback: ((value, index, values) => {
@@ -265,7 +269,7 @@
                   }
                 }
               }
-            }
+            },
           },
           y: {
             beginAtZero: true
@@ -292,7 +296,7 @@
           },
         }
       },
-      plugins: [dottedLine, imageLogo, customTickMarks]
+      plugins: [dottedLine, imageLogo]
     };
 
     // render init block
@@ -528,6 +532,7 @@
         pointRadius: 0,
         pointHoverRadius: 0,
         pointHitRadius: 0,
+        borderWidth: 1,
       }]
     };
 
@@ -553,8 +558,35 @@
             min: dates[0],
             max: dates[dates.length - 1],
             grid: {
-              display: false
+              drawborder: false,
+              drawTicks: false,
             },
+            ticks: {
+              mirror: true,
+              callback: ((value, index, values) => {
+                const totalTicks = values.length - 2;
+                const monthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                const currentTick = new Date(values[index].value);
+                
+                if(currentTick.getDate() === 1) {
+                  return monthArray[currentTick.getMonth()];
+                }
+                if(currentTick.getDate() === 10
+                  || currentTick.getDate() === 20) {
+                  return currentTick.getDate();
+                }
+                if(totalTicks < 40) {
+                  return currentTick.getDate();
+                }
+              }),
+              font: {
+                weight: (values) => {
+                  if(values.tick.label.length === 3) {
+                    return 'bold';
+                  }
+                }
+              }
+            }
           },
           y: {
             beginAtZero: true,
@@ -562,7 +594,8 @@
               display: false,
             },
             grid: {
-              display: false
+              display: false,
+              drawborder: false,
             },
           }
         },
@@ -603,7 +636,7 @@
 
         ctx.save();
         ctx.beginPath();
-        ctx.fillStyle = 'rgba(54, 162, 235, 0.4)';
+        ctx.fillStyle = 'rgba(54, 162, 235, 0.2)';
         ctx.fillRect(x.getPixelForValue(min), top, x.getPixelForValue(max) - x.getPixelForValue(min), height);
         ctx.closePath();
         ctx.restore();
