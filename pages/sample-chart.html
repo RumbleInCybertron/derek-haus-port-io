@@ -219,6 +219,31 @@
     //   }
     // };
 
+    // customToolTip plugin block
+    const customTooltip = {
+      id: 'customToolTip',
+      afterDraw(chart, args, pluginOptions) {
+        const { ctx, chartArea: {top, bottom, left, right, width, height }, scales: {x, y} } = chart;
+        ctx.save();
+
+        chart.canvas.addEventListener('mousemove', (e) => {
+          tooltipPosition(e)
+        });
+
+        function tooltipPosition(mousemove){
+          ctx.beginPath();
+          ctx.fillStyle = 'rgba(102,102,102, 0.2)';
+          ctx.strokeStyle = 'rgba(102,102,102, 0.2)';
+          ctx.lineJoin = 'round';
+          ctx.lineWidth = 5;
+          ctx.fillRect(mousemove.offsetX + 20, 20, 150, 50);
+          ctx.strokeRect(mousemove.offsetX + 20, 20, 150, 150);
+          ctx.closePath();
+          ctx.restore();
+        };
+      }
+    };
+
     // config 
     const config = {
       type: 'line',
@@ -296,7 +321,7 @@
           },
         }
       },
-      plugins: [dottedLine, imageLogo]
+      plugins: [dottedLine, imageLogo, customTooltip]
     };
 
     // render init block
