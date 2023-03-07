@@ -231,15 +231,32 @@
         });
 
         function tooltipPosition(mousemove){
-          ctx.beginPath();
-          ctx.fillStyle = 'rgba(102,102,102, 0.2)';
-          ctx.strokeStyle = 'rgba(102,102,102, 0.2)';
-          ctx.lineJoin = 'round';
-          ctx.lineWidth = 5;
-          ctx.fillRect(mousemove.offsetX + 20, 20, 150, 50);
-          ctx.strokeRect(mousemove.offsetX + 20, 20, 150, 150);
-          ctx.closePath();
-          ctx.restore();
+          let xTooltip;
+          let yTooltip;
+          const rightSide = right - mousemove.offsetX;
+          if(rightSide <= 170) {
+            xTooltip = mousemove.offsetX - 170;
+          } else {
+            xTooltip = mousemove.offsetX + 20;
+          }
+
+          if(mousemove.offsetY <= 90) {
+            yTooltip - mousemove.offsetY + 20;
+          } else {
+            yTooltip = mousemove.offsetY - 70;
+          }
+
+          if(mousemove.offsetX >= left && mousemove.offsetX <= right && mousemove.offsetY >= top && mousemove.offsetY <= bottom){
+            ctx.beginPath();
+            ctx.fillStyle = 'rgba(102,102,102, 0.2)';
+            ctx.strokeStyle = 'rgba(102,102,102, 0.2)';
+            ctx.lineJoin = 'round';
+            ctx.lineWidth = 5;
+            ctx.fillRect(xTooltip, yTooltip, 150, 50);
+            ctx.strokeRect(xTooltip, yTooltip, 150, 50);
+            ctx.closePath();
+            ctx.restore();
+          };
         };
       }
     };
