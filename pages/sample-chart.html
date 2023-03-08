@@ -240,21 +240,40 @@
             xTooltip = mousemove.offsetX + 20;
           }
 
-          if(mousemove.offsetY <= 90) {
-            yTooltip - mousemove.offsetY + 20;
+          if(mousemove.offsetY <= 100) {
+            yTooltip - mousemove.offsetY + 30;
           } else {
-            yTooltip = mousemove.offsetY - 70;
+            yTooltip = mousemove.offsetY - 80;
           }
 
           if(mousemove.offsetX >= left && mousemove.offsetX <= right && mousemove.offsetY >= top && mousemove.offsetY <= bottom){
             ctx.beginPath();
-            ctx.fillStyle = 'rgba(102,102,102, 0.2)';
-            ctx.strokeStyle = 'rgba(102,102,102, 0.2)';
+            ctx.fillStyle = 'rgba(102,102,102, 1)';
+            ctx.strokeStyle = 'rgba(102,102,102, 1)';
             ctx.lineJoin = 'round';
             ctx.lineWidth = 5;
-            ctx.fillRect(xTooltip, yTooltip, 150, 50);
-            ctx.strokeRect(xTooltip, yTooltip, 150, 50);
+            ctx.fillRect(xTooltip, yTooltip, 150, 60);
+            ctx.strokeRect(xTooltip, yTooltip, 150, 60);
             ctx.closePath();
+            ctx.restore();
+
+            const dateCursor = new Date(x.getValueForPixel(mousemove.offsetX));
+            const dateIndex = dates.indexOf(dateCursor.setHours(0,0,0,0));
+
+            // text date
+            ctx.textAlign = 'left';
+            ctx.textBaseLine = 'middle';
+            ctx.fillStyle = 'white';
+            ctx.font = 'bolder 12px sans-serif';
+            ctx.fillText(dateCursor.toLocaleDateString(), xTooltip + 5, yTooltip + 10);
+            ctx.restore();
+            
+            // text time
+            ctx.textAlign = 'right';
+            ctx.textBaseLine = 'middle';
+            ctx.fillStyle = 'lightgrey';
+            ctx.font = 'bolder 10px sans-serif';
+            ctx.fillText(new Date(x.getValueForPixel(mousemove.offsetX)).toLocaleTimeString(), xTooltip + 150 - 5, yTooltip + 10);
             ctx.restore();
           };
         };
