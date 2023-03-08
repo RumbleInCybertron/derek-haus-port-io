@@ -142,7 +142,7 @@
       id: 'dottedLine',
       beforeDatasetsDraw(chart, args, pluginOptions) {
         const { ctx, data, chartArea: { left, right, width }, scales: { x, y } } = chart;
-        const startingPoint = data.datasets[0].data[0];
+        const startingPoint = data.datasets[0].data[data.labels.indexOf(x.min)];
 
         ctx.save();
         ctx.beginPath();
