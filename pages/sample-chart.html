@@ -252,8 +252,22 @@
           } else {
             yTooltip = mousemove.offsetY - 80;
           }
+          
+          let xLeft;
+          let xRight;
+          if (x.min = dates[0]) {
+            xLeft = x.getPixelForValue(dates[0]);
+          } else {
+            xLeft = left;
+          }
 
-          if (mousemove.offsetX >= left && mousemove.offsetX <= right && mousemove.offsetY >= top && mousemove.offsetY <= bottom) {
+          if (x.max = dates[dates.length - 1]) {
+            xRight = x.getPixelForValue(dates[dates.length - 1]);
+          } else {
+            xRight = right;
+          }
+
+          if (mousemove.offsetX >= xLeft && mousemove.offsetX <= xRight && mousemove.offsetY >= top && mousemove.offsetY <= bottom) {
             ctx.beginPath();
             ctx.fillStyle = 'rgba(102,102,102, 1)';
             ctx.strokeStyle = 'rgba(102,102,102, 1)';
