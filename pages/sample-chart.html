@@ -454,7 +454,7 @@
       const { left, right, top, bottom, width, height } = chartArea;
       const { x, y } = scales;
       const gradientBorder = ctx.createLinearGradient(0, 0, 0, bottom);
-      let shift = y.getPixelForValue(data.datasets[0].data[0]) / bottom; // pixel percentage shift
+      let shift = y.getPixelForValue(data.datasets[0].data[data.labels.indexOf(x.min)]) / bottom; // pixel percentage shift
 
       if (shift > 1) {
         shift = 1;
