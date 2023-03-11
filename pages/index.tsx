@@ -5,6 +5,7 @@ import Layout from "@/components/Layout"
 import BarChart from "@/components/BarChart"
 import DonutChart from "@/components/DonutChart";
 import StockData from "@/components/StockData";
+import LineChart from "@/components/LineChart";
 
 export const getStaticProps: GetStaticProps = async () => {
   const feed = await prisma.stock.findMany({
@@ -53,6 +54,7 @@ const StockFeed: React.FC<Props> = (props) => {
       <BarChart />
       <DonutChart />
       <StockData />
+      <LineChart />
     </>
   )
 }
