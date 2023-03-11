@@ -30,6 +30,7 @@ model PortfolioStock {
   id           String        @id @default(cuid())
   transactions Transaction[]
   shares       Int
+  average      Float
   createdAt    DateTime      @default(now()) @map(name: "created_at")
   portfolio    Portfolio     @relation(fields: [portfolioId], references: [id])
   portfolioId  String

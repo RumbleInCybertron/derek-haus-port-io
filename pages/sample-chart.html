@@ -252,7 +252,7 @@
           } else {
             yTooltip = mousemove.offsetY - 80;
           }
-          
+
           let xLeft;
           let xRight;
           if (x.min = dates[0]) {
@@ -299,7 +299,7 @@
 
             // line 2 color dot
             let dotColor;
-            if(numbers[dateIndex] > numbers[0]) {
+            if (numbers[dateIndex] > numbers[0]) {
               dotColor = 'rgba(75, 192, 192, 1)';
             } else {
               dotColor = 'rgba(255, 26, 104, 1)';
@@ -319,7 +319,7 @@
             ctx.textAlign = 'left';
             ctx.textBaseLine = 'middle';
             ctx.fillStyle = 'lightgrey';
-            ctx.font = 'bolder 12px sans-serif'; 
+            ctx.font = 'bolder 12px sans-serif';
             ctx.fillText(priceText, xTooltip + 5 + dotSpace, yTooltip + 30);
             ctx.restore();
 
@@ -357,8 +357,6 @@
             ctx.font = 'bolder 12px sans-serif';
             ctx.fillText(volume[dateIndex].toFixed(0), xTooltip + 5 + iconSpace + valueTextWidth, yTooltip + 50);
             ctx.restore();
-
-
           };
         };
       }

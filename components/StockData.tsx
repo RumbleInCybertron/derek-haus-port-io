@@ -20,7 +20,7 @@ const StockData: React.FC = () => {
 
   if (isLoading) return <p>Loading...</p>
   if (!data) return <p>No profile data</p>
-  // console.log(data);
+  console.log(data);
   // const dataArray = Object.entries(data);
 
   // const IBMData = async (url: URL) => {
@@ -45,11 +45,11 @@ const StockData: React.FC = () => {
     <h1>{JSON.stringify(data["Meta Data"]["4. Interval"])}</h1>
     <h1>{JSON.stringify(data["Meta Data"]["5. Output Size"])}</h1>
     <h1>{JSON.stringify(data["Meta Data"]["6. Time Zone"])}</h1>
-    <h1>{JSON.stringify(data["Time Series (5min)"]["2023-03-03 18:35:00"]["1. open"])}</h1>
-    <h1>{JSON.stringify(data["Time Series (5min)"]["2023-03-03 18:35:00"]["2. high"])}</h1>
-    <h1>{JSON.stringify(data["Time Series (5min)"]["2023-03-03 18:35:00"]["3. low"])}</h1>
-    <h1>{JSON.stringify(data["Time Series (5min)"]["2023-03-03 18:35:00"]["4. close"])}</h1>
-    <h1>{JSON.stringify(data["Time Series (5min)"]["2023-03-03 18:35:00"]["5. volume"])}</h1>
+    <h1>{JSON.stringify(data["Time Series (5min)"]["2023-03-09 18:35:00"]["1. open"])}</h1>
+    <h1>{JSON.stringify(data["Time Series (5min)"]["2023-03-09 18:35:00"]["2. high"])}</h1>
+    <h1>{JSON.stringify(data["Time Series (5min)"]["2023-03-09 18:35:00"]["3. low"])}</h1>
+    <h1>{JSON.stringify(data["Time Series (5min)"]["2023-03-09 18:35:00"]["4. close"])}</h1>
+    <h1>{JSON.stringify(data["Time Series (5min)"]["2023-03-09 18:35:00"]["5. volume"])}</h1>
     {/* <h1>{JSON.stringify(data["Meta Data"]["5. Output Size"])}</h1>
     <h1>{JSON.stringify(data["Meta Data"]["5. Output Size"])}</h1>
     <h1>{JSON.stringify(data["Meta Data"]["5. Output Size"])}</h1> */}
