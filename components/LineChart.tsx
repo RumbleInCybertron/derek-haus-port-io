@@ -1,6 +1,9 @@
 import React from 'react';
+import { Line } from 'react-chartjs-2';
 
-const dates: string[] = [];
+import { Chart, BarElement } from 'chart.js';
+
+const dates: number[] = [];
 const numbers: number[] = [];
 const volume: number[] = [];
 
@@ -10,21 +13,11 @@ const data = {
   datasets: [{
     label: '取引週',
     data: numbers,
-    // data: [9.33, 12, 6, 9, 12, 3, 9],
-    // backgroundColor: [
-    //   'rgba(255, 26, 104, 0.2)',
-    //   'rgba(54, 162, 235, 0.2)',
-    //   'rgba(255, 206, 86, 0.2)',
-    //   'rgba(75, 192, 192, 0.2)',
-    //   'rgba(153, 102, 255, 0.2)',
-    //   'rgba(255, 159, 64, 0.2)',
-    //   'rgba(0, 0, 0, 0.2)'
-    // ],
     fill: {
       target: {
         value: numbers[0]
       },
-      below: (context) => {
+      below: (context: any) => {
         const chart = context.chart;
         const { ctx, chartArea, data, scales } = chart;
         if (!chartArea) {
@@ -32,7 +25,7 @@ const data = {
         }
         return belowGradient(ctx, chartArea, data, scales);
       },
-      above: (context) => {
+      above: (context: any) => {
         const chart = context.chart;
         const { ctx, chartArea, data, scales } = chart;
         if (!chartArea) {
@@ -41,7 +34,7 @@ const data = {
         return aboveGradient(ctx, chartArea, data, scales);
       },
     },
-    borderColor: (context) => {
+    borderColor: (context: any) => {
       const chart = context.chart;
       const { ctx, chartArea, data, scales } = chart;
       if (!chartArea) {
@@ -64,7 +57,47 @@ const data = {
   }]
 };
 
-const LineChart: React.FC = () => {
+const setData = () => {
+  for (let i = 0; i < 200; i++) {
+    const date = new Date(); 
+    date.setDate(date.getDate() + i);
+    dates.push(date.setHours(0, 0, 0, 0));
+    numbers.push(Math.random() * 10);
+    volume.push(Math.random() * 100);
+  }
+}
+
+// dottedLine plugin block
+const dottedLine = {
+  id: 'dottedLine',
+  beforeDatasetsDraw(context.chart, args, pluginOptions) {
+    const { ctx, data, chartArea: { left, right, width }, scales: { x, y } } = chart;
+    const startingPoint = data.datasets[0].data[data.labels.indexOf(x.min)];
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.lineWidth = 1;
+    ctx.setLineDash([1, 5]);
+    ctx.strokeStyle = 'rgba(102,102,102,1)';
+    ctx.moveTo(left, y.getPixelForValue(startingPoint));
+    ctx.lineTo(right, y.getPixelForValue(startingPoint));
+    ctx.stroke();
+    ctx.closePath();
+    ctx.setLineDash([]);
+
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(102,102,102,1)';
+    ctx.fillRect(0, y.getPixelForValue(startingPoint) - 10, left, 20);
+    ctx.closePath();
+
+    ctx.font = '12px sans-serif';
+    ctx.fillStyle = 'white';
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'center';
+    ctx.fillText(startingPoint.toFixed(2), left / 2, y.getPixelForValue(startingPoint));
+}};
+
+export const LineChart = () => {
     return (
       <>
       <div className="chartMenu">
@@ -82,53 +115,13 @@ const LineChart: React.FC = () => {
   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
       integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />"
+      crossOrigin="anonymous" referrerPolicy="no-referrer" />
   
 
       Chart.defaults.font.family = "'FontAwesome','Helvetica', 'Helvetica Neue', 'Arial', sans-serif";
    
-      for (let i = 0; i < 200; i++) {
-        const date = new Date(); 
-        date.setDate(date.getDate() + i);
-        dates.push(date.setHours(0, 0, 0, 0));
-        numbers.push(Math.random() * 10);
-        volume.push(Math.random() * 100);
-      }
-  
-      // setup 
-
-  
-      // dottedLine plugin block
-      const dottedLine = {
-        id: 'dottedLine',
-        beforeDatasetsDraw(chart, args, pluginOptions) {
-          const { ctx, data, chartArea: { left, right, width }, scales: { x, y } } = chart;
-          const startingPoint = data.datasets[0].data[data.labels.indexOf(x.min)];
-  
-          ctx.save();
-          ctx.beginPath();
-          ctx.lineWidth = 1;
-          ctx.setLineDash([1, 5]);
-          ctx.strokeStyle = 'rgba(102,102,102,1)';
-          ctx.moveTo(left, y.getPixelForValue(startingPoint));
-          ctx.lineTo(right, y.getPixelForValue(startingPoint));
-          ctx.stroke();
-          ctx.closePath();
-          ctx.setLineDash([]);
-  
-          ctx.beginPath();
-          ctx.fillStyle = 'rgba(102,102,102,1)';
-          ctx.fillRect(0, y.getPixelForValue(startingPoint) - 10, left, 20);
-          ctx.closePath();
-  
-          ctx.font = '12px sans-serif';
-          ctx.fillStyle = 'white';
-          ctx.textBaseline = 'middle';
-          ctx.textAlign = 'center';
-          ctx.fillText(startingPoint.toFixed(2), left / 2, y.getPixelForValue(startingPoint));
-        }
-      }
-  
+      setData();
+    
       // imageLogo plugin block
       const logo = new Image();
       logo.src = '../img/Logo_name.png';
@@ -148,44 +141,6 @@ const LineChart: React.FC = () => {
           ctx.restore();
         }
       };
-  
-      // // customTickMarks plugin block
-      // const customTickMarks = {
-      //   id: 'customTickMarks',
-      //   beforeDatasetsDraw(chart, args, pluginOptions) {
-      //     const { ctx, data, chartArea: {bottom}, scales: {x,y} } = chart;
-      //     ctx.save();
-      //     const startTick = dates.indexOf(x.min);
-      //     const endTick = dates.indexOf(x.max);
-      //     const totalTicks = endTick - startTick;
-      //     console.log(totalTicks);
-  
-      //     dates.forEach((date, index) => {
-      //       ctx.beginPath();
-      //       ctx.strokeStyle = 'rgba(102, 102, 102, 0.5)';
-      //       ctx.lineWidth = 1;
-  
-      //       if(new Date(date).getDate() === 1) {
-      //         ctx.moveTo(x.getPixelForValue(new Date(date)), bottom);
-      //         ctx.lineTo(x.getPixelForValue(new Date(date)), bottom + 8);
-      //       }
-  
-      //       if(new Date(date).getDate() === 10 || new Date(date).getDate() === 20) {
-      //         ctx.moveTo(x.getPixelForValue(new Date(date)), bottom);
-      //         ctx.lineTo(x.getPixelForValue(new Date(date)), bottom + 8);
-      //       }
-  
-      //       if(totalTicks < 40) {
-      //         ctx.moveTo(x.getPixelForValue(new Date(date)), bottom);
-      //         ctx.lineTo(x.getPixelForValue(new Date(date)), bottom + 8);
-      //       }
-  
-      //       ctx.stroke();
-      //       ctx.closePath();
-      //       ctx.restore();
-      //     })
-      //   }
-      // };
   
       // customToolTip plugin block
       const customTooltip = {
@@ -978,5 +933,3 @@ const LineChart: React.FC = () => {
     </>
     );
   }
-
-export default LineChart;
