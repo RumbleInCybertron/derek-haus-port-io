@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 const url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=" + process.env.CHART_API_KEY!;
 
-const StockData: React.FC = () => {
+export const StockData = () => {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
 

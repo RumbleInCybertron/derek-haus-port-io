@@ -10,12 +10,12 @@ export type StockProps = {
   price: number;
 };
 
-const Stock: React.FC<{ stock: StockProps }> = ({ stock }) => {
+export const Stock = ({id, name, ticker, index, price}: StockProps) => {
   return (
-    <div onClick={() => Router.push("/stock/[id]", `/stock/${stock.id}`)}>
-      <small>{stock.name}: {stock.ticker} </small>
-      <small>${stock.price}</small>
-      <ReactMarkdown>{stock.name}</ReactMarkdown>
+    <div onClick={() => Router.push("/stock/[id]", `/stock/${id}`)}>
+      <small>{name}: {ticker} </small>
+      <small>${price}</small>
+      <ReactMarkdown>{name}</ReactMarkdown>
       <style jsx>{`
         div {
           color: inherit;

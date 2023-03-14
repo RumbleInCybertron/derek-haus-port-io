@@ -37,7 +37,7 @@ const data = {
     }]
   };
 
-const BarChart: React.FC = () => {
+export const BarChart = () => {
     return (
       <div className={homeStyle.main}>
         <h2>Bar Example (custom size)</h2>
@@ -52,5 +52,3 @@ const BarChart: React.FC = () => {
       </div>
     );
   }
-
-export default BarChart;

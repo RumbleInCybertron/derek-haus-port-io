@@ -39,7 +39,7 @@ const data = {
   }]
 };
 
-const DonutChart: React.FC = () => {
+export const DonutChart = () => {
   return (
     <div className={homeStyle.main}>
       <h2>Doughnut Sample with Next.js</h2>
