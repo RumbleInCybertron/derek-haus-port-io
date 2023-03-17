@@ -17,6 +17,12 @@ const Header: React.FC = () => {
           Stocks
         </a>
       </Link>
+      <Link legacyBehavior href="/create">
+        <a className="bold" data-active={isActive('/create')}>
+          Add Stock
+        </a>
+      </Link>
+
       <style jsx>{`
         .bold {
           font-weight: bold;
@@ -47,6 +53,11 @@ const Header: React.FC = () => {
         <Link legacyBehavior href="/">
           <a className="bold" data-active={isActive('/')}>
             Stocks
+          </a>
+        </Link>
+        <Link legacyBehavior href="/create">
+          <a className="bold" data-active={isActive('/create')}>
+            Add Stock
           </a>
         </Link>
         <style jsx>{`
@@ -121,6 +132,11 @@ const Header: React.FC = () => {
             Stocks
           </a>
         </Link>
+        <Link legacyBehavior href="/create">
+          <a className="bold" data-active={isActive('/create')}>
+            Add Stock
+          </a>
+        </Link>
         <Link legacyBehavior href="/drafts">
           <a data-active={isActive('/drafts')}>Unfinished</a>
         </Link>
@@ -150,11 +166,6 @@ const Header: React.FC = () => {
         <p>
           {session?.user?.name} ({session?.user?.email})
         </p>
-        <Link legacyBehavior href="/create">
-          <button>
-            <a>Add stock</a>
-          </button>
-        </Link>
         <button onClick={() => signOut()}>
           <a>Log out</a>
         </button>
