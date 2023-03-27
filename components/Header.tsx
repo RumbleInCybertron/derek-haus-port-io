@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 
-const Header: React.FC = () => {
+export const Header = () => {
   const router = useRouter();
   const isActive: (pathname: string) => boolean = (pathname) =>
     router.pathname === pathname;
@@ -11,37 +11,23 @@ const Header: React.FC = () => {
   const { data: session, status } = useSession();
 
   let left = (
-    <div className="left">
-      <Link legacyBehavior href="/">
-        <a className="bold" data-active={isActive('/')}>
+    <div>
+      <Link
+        href="/"
+        className="inline-block font-bold mr-1 no-underline"
+      >
+        <span className="font-bold text-secondary">
           Stocks
-        </a>
+        </span>
       </Link>
-      <Link legacyBehavior href="/create">
-        <a className="bold" data-active={isActive('/create')}>
+      <Link
+        href="/create"
+        className="font-bold"
+      >
+        <span>
           Add Stock
-        </a>
+        </span>
       </Link>
-
-      <style jsx>{`
-        .bold {
-          font-weight: bold;
-        }
-
-        a {
-          text-decoration: none;
-          color: var(--geist-foreground);
-          display: inline-block;
-        }
-
-        .left a[data-active='true'] {
-          color: gray;
-        }
-
-        a + a {
-          margin-left: 1rem;
-        }
-      `}</style>
     </div>
   );
 
@@ -49,174 +35,80 @@ const Header: React.FC = () => {
 
   if (status === 'loading') {
     left = (
-      <div className="left">
-        <Link legacyBehavior href="/">
-          <a className="bold" data-active={isActive('/')}>
-            Stocks
-          </a>
+      <div className="inline-block font-bold mr-1 no-underline">
+        <Link
+          href="/"
+          className="font-bold"
+        >
+          <span className="font-bold text-secondary">Stocks</span>
         </Link>
-        <Link legacyBehavior href="/create">
-          <a className="bold" data-active={isActive('/create')}>
-            Add Stock
-          </a>
+        <Link
+          href="/create"
+          className="font-bold"
+        >
+          <span>Add Stock</span>
         </Link>
-        <style jsx>{`
-          .bold {
-            font-weight: bold;
-          }
-
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          .left a[data-active='true'] {
-            color: gray;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-        `}</style>
       </div>
     );
     right = (
-      <div className="right">
+      <div className="mx-auto">
         <p>Validating session ...</p>
-        <style jsx>{`
-          .right {
-            margin-left: auto;
-          }
-        `}</style>
       </div>
     );
   }
 
   if (!session) {
     right = (
-      <div className="right">
-        <Link legacyBehavior href="/api/auth/signin">
-          <a data-active={isActive('/signup')}>Log in</a>
+      <div className="mx-auto inline-block font-bold mr-1 no-underline">
+        <Link
+          href="/api/auth/signin"
+          className="font-bold"
+        >
+          <span>Log in</span>
         </Link>
-        <style jsx>{`
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-
-          .right {
-            margin-left: auto;
-          }
-
-          .right a {
-            border: 1px solid var(--geist-foreground);
-            padding: 0.5rem 1rem;
-            border-radius: 3px;
-          }
-        `}</style>
       </div>
     );
   }
 
   if (session) {
     left = (
-      <div className="left">
-        <Link legacyBehavior href="/">
-          <a className="bold" data-active={isActive('/')}>
-            Stocks
-          </a>
+      <div>
+        <Link
+          href="/"
+          className="inline-block font-bold mr-1 no-underline"
+        >
+          <span className="font-bold text-secondary">Stocks</span>
         </Link>
-        <Link legacyBehavior href="/create">
-          <a className="bold" data-active={isActive('/create')}>
-            Add Stock
-          </a>
+        <Link
+          href="/create"
+          className="font-bold"
+        >
+          <span>Add Stock</span>
         </Link>
-        <Link legacyBehavior href="/drafts">
-          <a data-active={isActive('/drafts')}>Unfinished</a>
+        <Link
+          href="/drafts"
+        >
+          <span>Unfinished</span>
         </Link>
-        <style jsx>{`
-          .bold {
-            font-weight: bold;
-          }
-
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          .left a[data-active='true'] {
-            color: gray;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-        `}</style>
       </div>
     );
     right = (
-      <div className="right">
+      <div className="mx-auto inline-block font-bold mr-1 no-underline">
         <p>
           {session?.user?.name} ({session?.user?.email})
         </p>
         <button onClick={() => signOut()}>
           <a>Log out</a>
         </button>
-        <style jsx>{`
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          p {
-            display: inline-block;
-            font-size: 13px;
-            padding-right: 1rem;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-
-          .right {
-            margin-left: auto;
-          }
-
-          .right a {
-            border: 1px solid var(--geist-foreground);
-            padding: 0.5rem 1rem;
-            border-radius: 3px;
-          }
-
-          button {
-            border: none;
-          }
-        `}</style>
       </div>
     );
   }
 
   return (
-    <nav>
+    <div className="flex-auto p-2 items-center">
       {left}
       {right}
-      <style jsx>{`
-        nav {
-          display: flex;
-          padding: 2rem;
-          align-items: center;
-        }
-      `}</style>
-    </nav>
+    </div>
   );
 };
-
 export default Header;
