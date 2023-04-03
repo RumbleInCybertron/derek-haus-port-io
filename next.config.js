@@ -7,8 +7,5 @@ module.exports = {
       destination: "/pages/api/myfile.js",
     },
   ],
-}
-
-module.exports = nextConfig
   output: 'standalone'
 }
