@@ -1,8 +1,8 @@
 import { Doughnut } from 'react-chartjs-2'
 import { Chart, ArcElement } from 'chart.js'
-import homeStyle from '../styles/Home.module.css'
 
 Chart.register(ArcElement);
+
 const labels = ['section 1', 'section 2', 'section 3', 'section 4', 'section 5', 'section 6'];
 const data = {
   labels: labels,
@@ -41,12 +41,13 @@ const data = {
 
 export const DonutChart = () => {
   return (
-    <div className={homeStyle.main}>
-      <h2>Doughnut Sample with Next.js</h2>
+    <div className="my-5 h-screen">
+      <h2 className='text-center font-bold'>Doughnut Sample with Next.js</h2>
       <Doughnut
         data={data}
         options={{
           maintainAspectRatio: false,
+          responsive: true,
         }}
       />
     </div>
