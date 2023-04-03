@@ -2,7 +2,6 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 
 import { Chart, CategoryScale, LinearScale, BarElement } from 'chart.js'
-import homeStyle from '../styles/Home.module.css'
 
 Chart.register(CategoryScale, LinearScale, BarElement)
 
@@ -39,14 +38,15 @@ const data = {
 
 export const BarChart = () => {
     return (
-      <div className={homeStyle.main}>
-        <h2>Bar Example (custom size)</h2>
+      <div className="my-5 h-screen">
+        <h2 className="text-center font-bold">Bar Example (custom size)</h2>
         <Bar
           data={data}
-          width={400}
-          height={200}
+          width={200}
+          height={100}
           options={{
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            responsive: true,
           }}
         />
       </div>
