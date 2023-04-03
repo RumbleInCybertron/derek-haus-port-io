@@ -22,40 +22,22 @@ type Props = {
   feed: StockProps[]
 }
 
-const StockFeed = ({feed}: Props) => {
+const StockFeed = ({ feed }: Props) => {
   return (
-    <>
-      <Layout>
-        <div className="page">
-          <h1>Stock</h1>
-          <main>
-            {feed.map((stock) => (
-              <div key={stock.id} className="stock">
-                <Stock {...stock}/>
-              </div>
-            ))}
-          </main>
-        </div>
-        <style jsx>{`
-        .stock {
-          background: purple;
-          transition: box-shadow 0.1s ease-in;
-        }
-
-        .stock:hover {
-          box-shadow: 1px 1px 3px #aaa;
-        }
-
-        .stock + .stock {
-          margin-top: 2rem;
-        }
-      `}</style>
-      </Layout>
-      <BarChart />
+    <Layout>
+      <div>
+        <h1>Stock</h1>
+        {feed.map((stock) => (
+          <div key={stock.id} className="bg-purple-800/50 shadow ease-in duration-100 hover:shadow hover:bg-purple-900/50 mb-2 p-3 w-1/3">
+            <Stock {...stock} />
+          </div>
+        ))}
+      </div>
+      {/* <BarChart />
       <DonutChart />
-      <StockData />
+      <StockData /> */}
       {/* <LineChart /> */}
-    </>
+    </Layout>
   )
 }
 
