@@ -56,7 +56,7 @@
   }
 
   /* Colors of buttons */
-  button.secondary,
+  /* button.secondary,
   button[type="button"].secondary,
   button[type="submit"].secondary {
     @apply bg-secondary hover:bg-secondary/75;
@@ -65,7 +65,7 @@
   button[type="button"].transparent.secondary,
   button[type="submit"].transparent.secondary {
     @apply bg-transparent text-secondary hover:bg-secondary/10;
-  }
+  } */
 
   /* Sizes of buttons */
   button.small,
@@ -82,5 +82,8 @@
   /* Links */
   a {
     @apply transition font-bold hover:underline hover:text-black text-gray-500 !no-underline;
+  }
+  body {
+    @apply dark:bg-gray-800 bg-white
   }
 }

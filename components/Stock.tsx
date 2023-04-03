@@ -16,12 +16,12 @@ export const Stock = ({id, name, ticker, index, price}: StockProps) => {
       <small>{name}: {ticker} </small>
       <small>${price}</small>
       <ReactMarkdown>{name}</ReactMarkdown>
-      <style jsx>{`
+      {/* <style jsx>{`
         div {
           color: inherit;
           padding: 2rem;
         }
-      `}</style>
+      `}</style> */}
     </div>
   )
 }

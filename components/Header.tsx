@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
+import DarkModeToggle from "./DarkMode";
 
 export const Header = () => {
   const router = useRouter();
@@ -10,46 +11,47 @@ export const Header = () => {
 
   const { data: session, status } = useSession();
 
-  let left = (
-    <div>
-      <Link
-        href="/"
-        className="inline-block font-bold mr-1 no-underline"
-      >
-        <span className="font-bold text-secondary">
-          Stocks
-        </span>
-      </Link>
-      <Link
-        href="/create"
-        className="font-bold"
-      >
-        <span>
-          Add Stock
-        </span>
-      </Link>
-    </div>
-  );
+  let left = null;
+  // let left = (
+  //   <div>
+  //     <Link
+  //       href="/"
+  //       className="inline-block font-bold mr-1 no-underline"
+  //     >
+  //       <span className="font-bold text-secondary">
+  //         Stocks
+  //       </span>
+  //     </Link>
+  //     <Link
+  //       href="/create"
+  //       className="font-bold"
+  //     >
+  //       <span>
+  //         Add Stock
+  //       </span>
+  //     </Link>
+  //   </div>
+  // );
 
   let right = null;
 
   if (status === 'loading') {
-    left = (
-      <div className="inline-block font-bold mr-1 no-underline">
-        <Link
-          href="/"
-          className="font-bold"
-        >
-          <span className="font-bold text-secondary">Stocks</span>
-        </Link>
-        <Link
-          href="/create"
-          className="font-bold"
-        >
-          <span>Add Stock</span>
-        </Link>
-      </div>
-    );
+    // left = (
+    //   <div className="inline-block font-bold mr-1 no-underline">
+    //     <Link
+    //       href="/"
+    //       className="font-bold"
+    //     >
+    //       <span className="font-bold text-secondary">Stocks</span>
+    //     </Link>
+    //     <Link
+    //       href="/create"
+    //       className="font-bold"
+    //     >
+    //       <span>Add Stock</span>
+    //     </Link>
+    //   </div>
+    // );
     right = (
       <div className="mx-auto">
         <p>Validating session ...</p>
@@ -105,8 +107,9 @@ export const Header = () => {
   }
 
   return (
-    <div className="flex-auto p-2 items-center">
+    <div className="flex">
       {left}
+      <div className="inline-block mx-auto mr-1"><DarkModeToggle/></div>
       {right}
     </div>
   );

@@ -57,12 +57,12 @@ const Draft: React.FC = () => {
             value={price}
           />
           <input disabled={!name || !ticker || !index || !price} type="submit" value="Create" />
-          <a className="back" href="#" onClick={() => Router.push('/')}>
+          <a href="#" onClick={() => Router.push('/')}>
             or Cancel
           </a>
         </form>
       </div>
-      <style jsx>{`
+      {/* <style jsx>{`
         .page {
           background: var(--geist-background);
           padding: 3rem;
@@ -89,7 +89,7 @@ const Draft: React.FC = () => {
         .back {
           margin-left: 1rem;
         }
-      `}</style>
+      `}</style> */}
     </Layout>
   );
 };
