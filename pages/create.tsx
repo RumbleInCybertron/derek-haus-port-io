@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import Router from 'next/router';
+import { NextPage } from 'next';
 
-const Draft: React.FC = () => {
+const Draft: NextPage = () => {
   const [name, setName] = useState('');
   const [ticker, setTicker] = useState('');
   const [index, setIndex] = useState('');
@@ -25,38 +26,48 @@ const Draft: React.FC = () => {
 
   return (
     <Layout>
-      <div>
+      <div className="flex justify-center p-3">
         <form onSubmit={submitData}>
-          <h1>New Stock</h1>
-          <input
-            autoFocus
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Name"
-            type="text"
-            value={name}
-          />
-          <input
-            autoFocus
-            onChange={(e) => setTicker(e.target.value)}
-            placeholder="Ticker"
-            type="text"
-            value={ticker}
-          />
-          <input
-            autoFocus
-            onChange={(e) => setIndex(e.target.value)}
-            placeholder="Index"
-            type="text"
-            value={index}
-          />
-          <input
-            autoFocus
-            onChange={(e) => setPrice(parseFloat(e.target.value))}
-            placeholder="Price"
-            type="number"
-            value={price}
-          />
-          <input disabled={!name || !ticker || !index || !price} type="submit" value="Create" />
+          <h1>Add Stock/Shares</h1>
+          <div>
+            <label htmlFor="name">Name *</label>
+            <input
+              autoFocus
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. 'Tesla Inc'"
+              type="text"
+              value={name}
+              className="text-black mb-2"
+            />
+            <label htmlFor="ticker">Ticker *</label>
+            <input
+              autoFocus
+              onChange={(e) => setTicker(e.target.value)}
+              placeholder="'TSLA'"
+              type="text"
+              value={ticker}
+              className="text-black mb-2"
+            />
+            <label htmlFor="index">Index *</label>
+            <input
+              autoFocus
+              onChange={(e) => setIndex(e.target.value)}
+              placeholder="'NASDAQ'"
+              type="text"
+              value={index}
+              className="text-black mb-2"
+            />
+            <label htmlFor="price">Price *</label>
+            <input
+              autoFocus
+              onChange={(e) => setPrice(parseFloat(e.target.value))}
+              placeholder="'$123.56'"
+              type="number"
+              value={price}
+              className="text-black mb-4"
+            />
+            <input disabled={!name || !ticker || !index || !price} type="submit" value="Create" />
+          </div>
           <a href="#" onClick={() => Router.push('/')}>
             or Cancel
           </a>
