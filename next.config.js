@@ -7,5 +7,6 @@ module.exports = {
       destination: "/pages/api/myfile.js",
     },
   ],
-  output: 'standalone'
+  output: 'standalone',
+  images: {domains:["avatars.githubusercontent.com"], formats: ['image/avif', 'image/webp'],}
 }
