@@ -61,7 +61,7 @@ const Draft: NextPage = () => {
             <input
               autoFocus
               onChange={(e) => setPrice(parseFloat(e.target.value))}
-              placeholder="'$123.56'"
+              placeholder="'$123.45'"
               type="number"
               value={price}
               className="text-black mb-4"
