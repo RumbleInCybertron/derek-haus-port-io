@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from 'next-themes';
@@ -10,6 +10,7 @@ interface AppbarProps { }
 const Appbar: React.FC<AppbarProps> = () => {
   const { theme, setTheme } = useTheme();
   const { data: session, status } = useSession();
+  const [toggle, setToggle] = useState(false);
 
   return (
     <header className="flex justify-between items-center py-2 px-4 shadow-sm">
@@ -29,9 +30,9 @@ const Appbar: React.FC<AppbarProps> = () => {
         <button
           type="button"
           aria-label="Toggle dark mode"
-          onClick={() => theme == "dark" ? setTheme('light') : setTheme("dark")}
+          onClick={() => { theme == "dark" ? setTheme("light") : setTheme("dark"); setToggle(!toggle) }}
         >
-          {theme === "light" ? <FiMoon /> : <FiSun />}
+          {toggle === true ? <FiMoon /> : <FiSun />}
         </button>
 
         {session ? (
@@ -39,13 +40,13 @@ const Appbar: React.FC<AppbarProps> = () => {
             <button
               type="button"
             >
-              Profile {<FiUser className="ml-1" />}
+              {<FiUser className="ml-1" />}
             </button>
             <button
               type="button"
               onClick={() => signOut()}
             >
-              Logout {<FiLogOut className="ml-1"/>}
+              {<FiLogOut className="ml-1" />}
             </button>
             <Image
               src={session?.user?.image || "/user.svg"}
