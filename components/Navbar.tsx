@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useTheme } from 'next-themes';
 import { FiSun, FiMoon, FiLogOut, FiUser } from "react-icons/fi";
 import { signOut, useSession } from "next-auth/react";
+import useDarkMode from "@/utils/hooks/useDarkMode";
 
 interface AppbarProps { }
 
 const Appbar: React.FC<AppbarProps> = () => {
-  const { theme, setTheme } = useTheme();
+  // const { theme, setTheme } = useTheme();
   const { data: session, status } = useSession();
-  const [toggle, setToggle] = useState(false);
+  const [colorTheme, setTheme] = useDarkMode();
 
   return (
     <header className="flex justify-between items-center py-2 px-4 shadow-sm">
@@ -27,14 +26,24 @@ const Appbar: React.FC<AppbarProps> = () => {
       </div>
 
       <div className="flex items-center space-x-4">
-        <button
-          type="button"
-          aria-label="Toggle dark mode"
-          onClick={() => { theme == "dark" ? setTheme("light") : setTheme("dark"); setToggle(!toggle) }}
-        >
-          {toggle === true ? <FiMoon /> : <FiSun />}
-        </button>
+        {colorTheme === "light" ? (
+          <button
+            type="button"
+            aria-label="Toggle dark mode"
+            onClick={() => setTheme("light")}
+          >
+            {<FiSun />}
+          </button>
+        ) : (
+          <button
+            type="button"
+            aria-label="Toggle dark mode"
+            onClick={() => setTheme("dark")}
+          >
+            {<FiMoon />}
+          </button>
 
+        )}
         {session ? (
           <>
             <button
