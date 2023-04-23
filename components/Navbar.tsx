@@ -1,13 +1,17 @@
+import { FiSun, FiMoon, FiLogOut, FiUser } from "react-icons/fi";
 import Link from "next/link";
 import Image from "next/image";
-import { FiSun, FiMoon, FiLogOut, FiUser } from "react-icons/fi";
+import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import useDarkMode from "@/utils/hooks/useDarkMode";
 
 interface AppbarProps { }
 
 const Appbar: React.FC<AppbarProps> = () => {
-  // const { theme, setTheme } = useTheme();
+  const router = useRouter();
+  const isActive: (pathname: string) => boolean = (pathname) =>
+  router.pathname === pathname;
+  
   const { data: session, status } = useSession();
   const [colorTheme, setTheme] = useDarkMode();
 
@@ -66,7 +70,7 @@ const Appbar: React.FC<AppbarProps> = () => {
             />
           </>
         ) : (
-          <Link href="/signin">
+          <Link href="/api/auth/signin">
             <span className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full">
               Sign In
             </span>

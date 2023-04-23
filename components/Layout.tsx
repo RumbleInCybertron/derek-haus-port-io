@@ -9,7 +9,7 @@ interface Props {
 export default function Layout({ children }: Props) {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <Navbar />
       <div className="container mx-auto">{children}</div>
     </div>
