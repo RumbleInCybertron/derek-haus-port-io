@@ -8,12 +8,23 @@ generator client {
 }
 
 model Portfolio {
-  id              String           @id @default(cuid())
+  id               String            @id @default(cuid())
+  name             String
+  createdAt        DateTime          @default(now()) @map(name: "created_at")
+  user             User              @relation(fields: [userId], references: [id])
+  userId           String            @unique
+  portfolioStocks  PortfolioStock[]
+  portfolioCryptos PortfolioCrypto[]
+}
+
+model Crypto {
+  id              String            @id @default(cuid())
   name            String
-  createdAt       DateTime         @default(now()) @map(name: "created_at")
-  user            User             @relation(fields: [userId], references: [id])
-  userId          String           @unique
-  portfolioStocks PortfolioStock[]
+  ticker          String
+  index           String
+  price           Float
+  createdAt       DateTime          @default(now()) @map(name: "created_at")
+  PortfolioCrypto PortfolioCrypto[]
 }
 
 model Stock {
@@ -24,6 +35,20 @@ model Stock {
   price           Float
   createdAt       DateTime         @default(now()) @map(name: "created_at")
   PortfolioStocks PortfolioStock[]
+}
+
+model PortfolioCrypto {
+  id           String        @id @default(cuid())
+  transactions Transaction[]
+  shares       Int
+  average      Float
+  createdAt    DateTime      @default(now()) @map(name: "created_at")
+  portfolio    Portfolio     @relation(fields: [portfolioId], references: [id])
+  portfolioId  String
+  crypto       Crypto        @relation(fields: [stockId], references: [id])
+  stockId      String
+  User         User?         @relation(fields: [userId], references: [id])
+  userId       String?
 }
 
 model PortfolioStock {
@@ -41,16 +66,18 @@ model PortfolioStock {
 }
 
 model Transaction {
-  id               String          @id @default(cuid())
-  ticker           String
-  price            Float
-  units            Float
-  type             String
-  createdAt        DateTime        @default(now()) @map(name: "created_at")
-  user             User?           @relation(fields: [userId], references: [id])
-  userId           String?
-  PortfolioStock   PortfolioStock? @relation(fields: [PortfolioStockId], references: [id])
-  PortfolioStockId String?
+  id                String           @id @default(cuid())
+  ticker            String
+  price             Float
+  units             Float
+  type              String
+  createdAt         DateTime         @default(now()) @map(name: "created_at")
+  user              User?            @relation(fields: [userId], references: [id])
+  userId            String?
+  PortfolioCrypto   PortfolioCrypto? @relation(fields: [portfolioCryptoId], references: [id])
+  portfolioCryptoId String?
+  PortfolioStock    PortfolioStock?  @relation(fields: [PortfolioStockId], references: [id])
+  PortfolioStockId  String?
 }
 
 enum Role {
@@ -88,18 +115,19 @@ model Session {
 }
 
 model User {
-  id             String           @id @default(cuid())
-  name           String?
-  email          String?          @unique
-  image          String?
-  createdAt      DateTime         @default(now()) @map(name: "created_at")
-  updatedAt      DateTime         @updatedAt @map(name: "updated_at")
-  PortfolioStock PortfolioStock[]
-  Transaction    Transaction[]
-  accounts       Account[]
-  Session        Session[]
-  portfolio      Portfolio?
-  emailVerified  DateTime?        @map("email_verified")
+  id              String            @id @default(cuid())
+  name            String?
+  email           String?           @unique
+  image           String?
+  createdAt       DateTime          @default(now()) @map(name: "created_at")
+  updatedAt       DateTime          @updatedAt @map(name: "updated_at")
+  PortfolioCrypto PortfolioCrypto[]
+  PortfolioStock  PortfolioStock[]
+  Transaction     Transaction[]
+  accounts        Account[]
+  Session         Session[]
+  portfolio       Portfolio?
+  emailVerified   DateTime?         @map("email_verified")
 }
 
 model VerificationToken {
