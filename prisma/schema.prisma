@@ -21,7 +21,6 @@ model Crypto {
   id              String            @id @default(cuid())
   name            String
   ticker          String
-  index           String
   price           Float
   createdAt       DateTime          @default(now()) @map(name: "created_at")
   PortfolioCrypto PortfolioCrypto[]
@@ -45,8 +44,8 @@ model PortfolioCrypto {
   createdAt    DateTime      @default(now()) @map(name: "created_at")
   portfolio    Portfolio     @relation(fields: [portfolioId], references: [id])
   portfolioId  String
-  crypto       Crypto        @relation(fields: [stockId], references: [id])
-  stockId      String
+  crypto       Crypto        @relation(fields: [cryptoId], references: [id])
+  cryptoId     String
   User         User?         @relation(fields: [userId], references: [id])
   userId       String?
 }
