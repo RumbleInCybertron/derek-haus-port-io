@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   };
 };
 
-const Stock: React.FC<StockProps> = (props) => {
+export const Stock = (props: StockProps) => {
   return (
     <Layout>
       <div className="p-2">
