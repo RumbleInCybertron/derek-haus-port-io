@@ -1,5 +1,5 @@
-import { Crypto, CryptoProps } from "@/components/Crypto";
 import Layout from "@/components/Layout";
+import { Crypto, CryptoProps } from "@/components/Crypto";
 import { Stock, StockProps } from "@/components/Stock";
 import { prisma } from "@/lib/prisma";
 import { GetStaticProps } from "next/types";
