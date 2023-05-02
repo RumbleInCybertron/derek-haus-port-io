@@ -25,6 +25,7 @@ type Props = {
 const StockFeed = ({ feed }: Props) => {
   return (
     <Layout>
+      <div className="font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">ホームページをこちらに埋め込んで下さいませ</div>
       {/* <BarChart />
       <DonutChart />
       <StockData /> */}
