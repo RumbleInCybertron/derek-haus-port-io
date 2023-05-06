@@ -8,5 +8,5 @@ module.exports = {
     },
   ],
   output: 'standalone',
-  images: {domains:["avatars.githubusercontent.com"], formats: ['image/avif', 'image/webp'],}
+  images: {domains:["avatars.githubusercontent.com", "lh3.googleusercontent.com"], formats: ['image/avif', 'image/webp'],}
 }
