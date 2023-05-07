@@ -1,7 +1,7 @@
 import { FiSun, FiMoon, FiLogOut, FiUser } from "react-icons/fi";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import useDarkMode from "@/utils/hooks/useDarkMode";
 
@@ -14,6 +14,10 @@ const Appbar: React.FC<AppbarProps> = () => {
 
   const { data: session, status } = useSession();
   const [colorTheme, setTheme] = useDarkMode();
+
+  const handleClick = async () => {
+    await Router.push('/profile');
+  }
 
   return (
     status === "loading" ?
@@ -57,6 +61,7 @@ const Appbar: React.FC<AppbarProps> = () => {
             <>
               <button
                 type="button"
+                onClick={handleClick}
               >
                 {<FiUser className="ml-1" />}
               </button>
