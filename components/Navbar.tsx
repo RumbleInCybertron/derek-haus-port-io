@@ -16,7 +16,11 @@ const Appbar: React.FC<AppbarProps> = () => {
   const [colorTheme, setTheme] = useDarkMode();
 
   const handleClick = async () => {
-    await Router.push('/profile');
+    const email = session?.user?.email;
+    await Router.push({
+      pathname: '/user/profile',
+      query: { email }
+    });
   }
 
   return (
