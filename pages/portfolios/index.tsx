@@ -1,23 +1,28 @@
 import Layout from "@/components/Layout";
-import { useSession } from "next-auth/react";
-import { Portfolio } from "@/components/Portfolio";
+import { Portfolio, PortfolioProps } from "@/components/Portfolio";
+import { useEffect, useState } from "react";
 
-const Portfolios = () => {
-  const { data: session } = useSession();
+export const Portfolios = () => {
+  const [portfolioData, setPortfolioData] = useState([]);
+  useEffect(() => {
+    const callApi = async () => {
+      try {
+        const res = await fetch(`/api/portfolios/`)
+        setPortfolioData(await res.json());
+      } catch (err) {
+        console.error(err);
+      }
+    } 
 
-  const user = await prisma.user.findUnique({
-    where: { email: String(session?.user?.email) }
-  });
-  const portfolios = await prisma.portfolio.findMany({
-    where: { userId: user?.id },
-    select: { id: true, name: true }
-  });
+    const result = callApi().catch(console.error);
+    console.log(result);
+  }, []);
 
   return (
     <Layout>
       <div>
         Portfolios
-        {portfolios.map((portfolio) => (
+        {portfolioData.map((portfolio: PortfolioProps) => (
           <div key={portfolio.id} className="bg-purple-800/50 shadow ease-in duration-100 hover:shadow hover:bg-purple-900/50 mb-2 p-3 w-1/3">
             <Portfolio {...portfolio} />
           </div>
