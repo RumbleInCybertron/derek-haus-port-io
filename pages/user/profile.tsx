@@ -40,7 +40,7 @@ const Profile = ({user}: Props) => {
     e.preventDefault();
     try {
       const body = { name, email };
-      await fetch('/api/post', {
+      await fetch('', { // TODO: add route
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
