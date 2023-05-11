@@ -37,7 +37,7 @@ const Appbar: React.FC<AppbarProps> = () => {
           <Link href="/">
             <span className="text-gray-500 hover:text-gray-900">Home</span>
           </Link>
-          <Link href="/portfolio">
+          <Link href="/portfolios">
             <span className="text-gray-500 hover:text-gray-900">Assets</span>
           </Link>
         </div>
