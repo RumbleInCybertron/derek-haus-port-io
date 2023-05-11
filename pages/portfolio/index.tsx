@@ -1,32 +1,30 @@
 import Layout from "@/components/Layout";
-import { Crypto, CryptoProps } from "@/components/Crypto";
-import { Stock, StockProps } from "@/components/Stock";
-import { prisma } from "@/lib/prisma";
-import { GetStaticProps } from "next/types";
+import { PortfolioProps } from "@/components/Portfolio";
+import { StockAsset } from "@/components/portfolio/Asset";
 
-export const getStaticProps: GetStaticProps = async () => {
-  const stocks = await prisma.stock.findMany({
-    select: { index: true, price: true, id: true, ticker: true, name: true }
-  });
-  const cryptos = await prisma.crypto.findMany({
-    select: { price: true, id: true, ticker: true, name: true }
-  });
 
-  return {
-    props: { stocks, cryptos },
-    revalidate: 10,
+const callApi = async (id: string) => {
+  try {
+    const res = await fetch(`/api/portfolio/${id}`)
+    return await res.json();
+  } catch (err) {
+    console.error(err);
   }
 }
 
 type Props = {
-  stocks: StockProps[],
-  cryptos: CryptoProps[]
+  portfolio: PortfolioProps[],
 };
 
-const AssetList = ({ stocks, cryptos }: Props) => {
+const AssetList = async () => {
+  const portfolio = await callApi("");
+
   return (
     <Layout>
       <div>
+        <StockAsset id={portfolio.id} name={portfolio.name} ticker={portfolio.ticker} shares={portfolio.shares} average={portfolio.average} updatedAt={portfolio.updatedAt} />
+      </div>
+      {/* <div>
         {stocks.length < 1 ? null : <h1>Stocks</h1>}
         {stocks.map((stock) => (
           <div key={stock.id} className="bg-purple-800/50 shadow ease-in duration-100 hover:shadow hover:bg-purple-900/50 mb-2 p-3 w-1/3">
@@ -39,7 +37,7 @@ const AssetList = ({ stocks, cryptos }: Props) => {
             <Crypto {...crypto} />
           </div>
         ))}
-      </div>
+      </div> */}
     </Layout>
   )
 }
