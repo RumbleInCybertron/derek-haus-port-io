@@ -36,20 +36,27 @@ model Stock {
 
 model CryptoAsset {
   id           String        @id @default(cuid())
+  name         String
+  ticker       String
   transactions Transaction[]
   amount       Float
   average      Float
   createdAt    DateTime      @default(now()) @map(name: "created_at")
+  updatedAt    DateTime      @updatedAt
   portfolio    Portfolio     @relation(fields: [portfolioId], references: [id])
   portfolioId  String
 }
 
 model StockAsset {
   id           String        @id @default(cuid())
+  name         String
+  ticker       String
+  index        String
   transactions Transaction[]
   shares       Float
   average      Float
   createdAt    DateTime      @default(now()) @map(name: "created_at")
+  updatedAt    DateTime      @updatedAt
   portfolio    Portfolio     @relation(fields: [portfolioId], references: [id])
   portfolioId  String
 }
