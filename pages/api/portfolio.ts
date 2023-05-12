@@ -3,7 +3,7 @@ import { getSession } from "next-auth/react";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
 export async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getSession();
+  const session = await getSession({req});
   if(req.method === 'GET') {
     const user = await prisma.user.findUnique({
       where: { email: String(session?.user?.email) }
