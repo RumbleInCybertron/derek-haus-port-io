@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { NextPage } from "next";
+import { useEffect, useState } from "react";
 import { GetServerSideProps, GetStaticProps } from "next/types";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import Layout from "@/components/Layout";
 import { UserProps } from "@/components/User";
@@ -23,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   // })
 
   return {
-    props: {user: JSON.parse(JSON.stringify(user))},
+    props: { user: JSON.parse(JSON.stringify(user)) },
   }
 };
 
@@ -31,10 +30,13 @@ type Props = {
   user: UserProps,
 };
 
-const Profile = ({user}: Props) => {
+const Profile = ({ user }: Props) => {
+  const router = useRouter();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const { data: session, status } = useSession();
+
+
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -56,10 +58,31 @@ const Profile = ({user}: Props) => {
     }
   };
 
-  if (!session ) return null;
+  useEffect(() => {
+    const handleRouteChange = (url: string, { shallow }: { shallow: boolean }) => {
+      console.log(`App is changing to ${url} ${shallow ? 'with' : 'without'} shallow routing`)
+      if(document.getElementById("spinner") != undefined) document.getElementById("spinner")!.style.display = "block";
+      return;
+    };
+
+    const handleRouteChangeComplete = () => {
+      if(document.getElementById("spinner") != undefined) document.getElementById("spinner")!.style.display = "none";
+      return;
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+    router.events.on('routeChangeComplete', handleRouteChangeComplete);
+
+    if (!session)
+      Router.push('/')
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+    };
+  }, [router.events, session]);
   // console.log(session);
-  console.log(user);
-  console.log(user.id);
+  // console.log(user);
+  // console.log(user.id);
 
   return (
     <Layout>
