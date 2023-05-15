@@ -31,7 +31,6 @@ type Props = {
 };
 
 const Profile = ({ user }: Props) => {
-  const router = useRouter();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const { data: session, status } = useSession();
@@ -59,31 +58,14 @@ const Profile = ({ user }: Props) => {
   };
 
   useEffect(() => {
-    const handleRouteChange = (url: string, { shallow }: { shallow: boolean }) => {
-      console.log(`App is changing to ${url} ${shallow ? 'with' : 'without'} shallow routing`)
-      if(document.getElementById("spinner") != undefined) document.getElementById("spinner")!.style.display = "block";
-      return;
-    };
-
-    const handleRouteChangeComplete = () => {
-      if(document.getElementById("spinner") != undefined) document.getElementById("spinner")!.style.display = "none";
-      return;
-    };
-
-    router.events.on('routeChangeStart', handleRouteChange);
-    router.events.on('routeChangeComplete', handleRouteChangeComplete);
-
     if (!session)
       Router.push('/')
-
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange)
-    };
-  }, [router.events, session]);
+  }, [session]);
   // console.log(session);
   // console.log(user);
   // console.log(user.id);
 
+  if(!session) return null;
   return (
     <Layout>
       <div>
