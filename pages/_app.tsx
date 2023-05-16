@@ -21,7 +21,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       router.events.off("routeChangeComplete", onDone);
       router.events.off("routeChangeError", onDone);
     };
-  }, []);
+  }, [router.events]);
 
   return (
     <SessionProvider session={pageProps.sessions}>
