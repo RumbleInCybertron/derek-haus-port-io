@@ -12,6 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const portfolios = await prisma.portfolio.findMany({
       where: { userId: user!.id },
       select: {
+        id: true,
         name: true,
         stockAssets: { select: { name: true, shares: true, average: true, id: true } },
         cryptoAssets: { select: { name: true, amount: true, id: true } }
