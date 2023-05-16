@@ -29,7 +29,6 @@ export const Portfolios = () => {
           ? (
             <div>
               <div className="p-2 font-extrabold text-transparent text-2xl bg-clip-text bg-gradient-to-r from-pink-400 to-purple-600">No portfolios here. Would you like to add one?</div>
-              <button onClick={() => Router.push("/portfolio/update")}>+ add</button>
             </div>
           )
           : (
@@ -39,6 +38,7 @@ export const Portfolios = () => {
               </div>
             ))
           )}
+        <button onClick={() => Router.push("/portfolio/update")}>+ add</button>
       </div>
     </Layout>
   );
