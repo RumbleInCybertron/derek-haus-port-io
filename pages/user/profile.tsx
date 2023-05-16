@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetServerSideProps, GetStaticProps } from "next/types";
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import { useSession } from "next-auth/react";
 import Layout from "@/components/Layout";
 import { UserProps } from "@/components/User";
@@ -35,8 +35,6 @@ const Profile = ({ user }: Props) => {
   const [email, setEmail] = useState('');
   const { data: session, status } = useSession();
 
-
-
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
@@ -58,14 +56,19 @@ const Profile = ({ user }: Props) => {
   };
 
   useEffect(() => {
-    if (!session)
-      Router.push('/')
+    const redirect = async () => {
+      if (!session)
+        await Router.push('/')
+    }
+
+    redirect()
+      .catch(console.error);
   }, [session]);
   // console.log(session);
   // console.log(user);
   // console.log(user.id);
 
-  if(!session) return null;
+  if (!session) return null;
   return (
     <Layout>
       <div>
