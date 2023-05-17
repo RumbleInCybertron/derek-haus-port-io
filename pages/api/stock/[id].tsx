@@ -27,4 +27,4 @@ export const Stock = (props: StockProps) => {
   )
 }
 
-export default Stock
+export default Stock;
