@@ -1,28 +1,40 @@
 import Layout from "@/components/Layout";
-import { PortfolioProps } from "@/components/Portfolio";
-import { StockAsset } from "@/components/portfolio/Asset";
+import { CryptoAssetProps, StockAsset, StockAssetProps } from "@/components/portfolio/Asset";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
-
-const callApi = async (id: string) => {
-  try {
-    const res = await fetch(`/api/portfolio/${id}`)
-    return await res.json();
-  } catch (err) {
-    console.error(err);
-  }
+interface Portfolio {
+  id: string;
+  name: string;
+  stockAssets?: StockAssetProps[];
+  cryptoAssets?: CryptoAssetProps[];
 }
 
-type Props = {
-  portfolio: PortfolioProps[],
-};
+export const Portfolio = ({id, name, stockAssets, cryptoAssets}: Portfolio) => {
+  const router = useRouter();
+  const [data, setData] = useState<Portfolio>({id, name, stockAssets, cryptoAssets});
+  useEffect(()=> {
+    const callApi = async () => {
+      try {
+        const id = await router.query.id;
+        const res = await fetch(`/api/portfolio/${id}`);
+        console.log("Response: ", res); // TODO: resolve 500 err
+        setData(await res.json());
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
-const AssetList = async () => {
-  const portfolio = await callApi("");
+    const result = callApi().catch(console.error);
+    // console.log("Result: ", result);
+  }, [router.query.id]);
 
   return (
     <Layout>
       <div>
-        <StockAsset id={portfolio.id} name={portfolio.name} ticker={portfolio.ticker} shares={portfolio.shares} average={portfolio.average} updatedAt={portfolio.updatedAt} />
+        Portfolio
+        {data.name}
+        {/* <StockAsset id={portfolio.id} name={portfolio.name} ticker={portfolio.ticker} shares={portfolio.shares} average={portfolio.average} updatedAt={portfolio.updatedAt} /> */}
       </div>
       {/* <div>
         {stocks.length < 1 ? null : <h1>Stocks</h1>}
@@ -40,6 +52,6 @@ const AssetList = async () => {
       </div> */}
     </Layout>
   )
-}
+};
 
-export default AssetList;
+export default Portfolio;
