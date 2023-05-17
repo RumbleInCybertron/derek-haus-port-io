@@ -7,11 +7,16 @@ export type PortfolioProps = {
   name: string;
 };
 
-export const Portfolio = ({id, name}: PortfolioProps) => {
+export const Portfolio = ({...portfolio}: PortfolioProps) => {
   return (
-    <div onClick={() => Router.push("/portfolio/[id]", `/portfolio/${id}`)}>
-      <small>{name}</small>
-      <ReactMarkdown>{name}</ReactMarkdown>
+    <div onClick={() => 
+      Router.push({
+        pathname: '/api/portfolio', 
+        query: {id: portfolio.id},
+      })
+    }>
+      <small>{portfolio.name}</small>
+      <ReactMarkdown>{portfolio.name}</ReactMarkdown>
     </div>
   )
 }
