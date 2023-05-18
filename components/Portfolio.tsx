@@ -11,7 +11,7 @@ export const Portfolio = ({...portfolio}: PortfolioProps) => {
   return (
     <div onClick={() => 
       Router.push({
-        pathname: '/api/portfolio', 
+        pathname: '/portfolio', 
         query: {id: portfolio.id},
       })
     }>
