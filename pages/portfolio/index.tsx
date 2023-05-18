@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout";
-import { CryptoAssetProps, StockAsset, StockAssetProps } from "@/components/portfolio/Asset";
+import { CryptoAsset, CryptoAssetProps, StockAsset, StockAssetProps } from "@/components/portfolio/Asset";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -10,15 +10,20 @@ interface Portfolio {
   cryptoAssets?: CryptoAssetProps[];
 }
 
-export const Portfolio = ({id, name, stockAssets, cryptoAssets}: Portfolio) => {
+export const Portfolio = ({ id, name, stockAssets, cryptoAssets }: Portfolio) => {
   const router = useRouter();
-  const [data, setData] = useState<Portfolio>({id, name, stockAssets, cryptoAssets});
-  useEffect(()=> {
+  const [data, setData] = useState<Portfolio>({ id: "", name: "", stockAssets: [], cryptoAssets: [] });
+
+  const refreshData = () => {
+    router.replace(router.asPath)
+  }
+
+  useEffect(() => {
     const callApi = async () => {
       try {
         const id = await router.query.id;
         const res = await fetch(`/api/portfolio/${id}`);
-        console.log("Response: ", res); // TODO: resolve 500 err
+        console.log("Response: ", res);
         setData(await res.json());
       } catch (err) {
         console.error(err);
@@ -33,7 +38,28 @@ export const Portfolio = ({id, name, stockAssets, cryptoAssets}: Portfolio) => {
     <Layout>
       <div>
         Portfolio
-        {data.name}
+        <div>{data.name}
+          {data.stockAssets !== undefined && data.stockAssets.length > 1
+            ? (
+              data.stockAssets?.map((stockAsset: StockAssetProps, i) => (
+                <div key={i}>
+                  <StockAsset {...stockAsset} />
+                </div>
+              )))
+            : (
+              <div>No Stock Assets in this Portfolio</div>
+            )}
+          {data.cryptoAssets !== undefined && data.cryptoAssets.length > 1
+            ? (
+              data.cryptoAssets?.map((cryptoAsset: CryptoAssetProps, i) => (
+                <div key={i}>
+                  <CryptoAsset {...cryptoAsset} />
+                </div>
+              )))
+            : (
+              <div>No Crypto Assets in this Portfolio</div>
+            )}
+        </div>
         {/* <StockAsset id={portfolio.id} name={portfolio.name} ticker={portfolio.ticker} shares={portfolio.shares} average={portfolio.average} updatedAt={portfolio.updatedAt} /> */}
       </div>
       {/* <div>
