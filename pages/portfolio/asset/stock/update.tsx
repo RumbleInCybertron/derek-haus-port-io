@@ -8,12 +8,12 @@ const Draft: NextPage = () => {
   const [ticker, setTicker] = useState('');
   const [index, setIndex] = useState('');
   const [price, setPrice] = useState(0.00);
-  const [shares, setShares] = useState(0.00);
+  const [amount, setAmount] = useState(0.00);
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const body = { name, ticker, index, price, shares };
+      const body = { name, ticker, index, price, amount };
       await fetch('/api/post', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -67,16 +67,16 @@ const Draft: NextPage = () => {
               value={price}
               className="text-black mb-4"
             />
-            <label htmlFor="shares">Shares *</label>
+            <label htmlFor="amount">Shares *</label>
             <input
               autoFocus
-              onChange={(e) => setShares(parseFloat(e.target.value))}
+              onChange={(e) => setAmount(parseFloat(e.target.value))}
               placeholder="'1.23'"
               type="number"
-              value={shares}
+              value={amount}
               className="text-black mb-4"
             />
-            <input disabled={!name || !ticker || !index || !price || !shares} type="submit" value="Create" />
+            <input disabled={!name || !ticker || !index || !price || !amount} type="submit" value="Create" />
           </div>
           <a href="#" onClick={() => Router.push('/')}>
             or Cancel

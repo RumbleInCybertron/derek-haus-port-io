@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const port = await prisma.portfolio.findUniqueOrThrow({
       where: { id: String(id) },
       include: {
-        stockAssets: { select: { id: true, name: true, ticker: true, shares: true, average: true, updatedAt: true }},
+        stockAssets: { select: { id: true, name: true, ticker: true, amount: true, average: true, updatedAt: true }},
         cryptoAssets: { select: { id: true, name: true, ticker: true, amount: true, average: true, updatedAt: true } },
       }
     });

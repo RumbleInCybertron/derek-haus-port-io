@@ -12,7 +12,7 @@
 //     const portfolios = await prisma.portfolio.findMany({
 //       where: { userId: user?.id },
 //       include: {
-//         stockAssets: { select: { name: true, shares: true, average: true, id: true } },
+//         stockAssets: { select: { name: true, amount: true, average: true, id: true } },
 //         cryptoAssets: { select: { name: true, amount: true, id: true } }
 //       }
 //     });

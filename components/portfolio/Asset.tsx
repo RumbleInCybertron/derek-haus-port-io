@@ -6,7 +6,7 @@ export type StockAssetProps = {
   id: string;
   name: string;
   ticker: string;
-  shares: number;
+  amount: number;
   average: number;
   updatedAt: Date;
   // transactions: TransactionProps[];
@@ -22,11 +22,11 @@ export type CryptoAssetProps = {
   // transactions: TransactionProps[];
 };
 
-export const StockAsset = ({id, name, ticker, shares, average, updatedAt}: StockAssetProps) => {
+export const StockAsset = ({id, name, ticker, amount, average, updatedAt}: StockAssetProps) => {
   return (
     <div className="text-inherit p-2" onClick={() => Router.push("/portfolio/asset/[id]", `/portfolio/asset/${id}`)}>
       <small>{name}: {ticker} </small>
-      <small>Shares: {shares} ${average}</small>
+      <small>Shares: {amount} ${average}</small>
       <small>Last Updated: {updatedAt.toDateString()}</small>
       <ReactMarkdown>{name}</ReactMarkdown>
     </div>
