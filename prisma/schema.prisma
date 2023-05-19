@@ -53,7 +53,7 @@ model StockAsset {
   ticker       String
   index        String
   transactions Transaction[]
-  shares       Float
+  amount       Float
   average      Float
   createdAt    DateTime      @default(now()) @map(name: "created_at")
   updatedAt    DateTime      @updatedAt
