@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import { CryptoAsset, CryptoAssetProps, StockAsset, StockAssetProps } from "@/components/portfolio/Asset";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 interface Portfolio {
@@ -59,8 +59,10 @@ export const Portfolio = ({ id, name, stockAssets, cryptoAssets }: Portfolio) =>
             : (
               <div>No Crypto Assets in this Portfolio</div>
             )}
+          <button className="m-2 w-1/3" onClick={() => Router.push({ pathname: "/portfolio/asset/stock/update", query: { portfolioId: data.id } }, "/portfolio/asset/stock/update")}>+ Add/Update Stock Assets</button>
+          <button className="m-2 w-1/3" onClick={() => Router.push("/portfolio/asset/crypto/update")}>+ Add/Update Crypto Assets</button>
         </div>
-        {/* <StockAsset id={portfolio.id} name={portfolio.name} ticker={portfolio.ticker} shares={portfolio.shares} average={portfolio.average} updatedAt={portfolio.updatedAt} /> */}
+        {/* <StockAsset id={portfolio.id} name={portfolio.name} ticker={portfolio.ticker} amount={portfolio.amount} average={portfolio.average} updatedAt={portfolio.updatedAt} /> */}
       </div>
       {/* <div>
         {stocks.length < 1 ? null : <h1>Stocks</h1>}
