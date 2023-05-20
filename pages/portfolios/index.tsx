@@ -38,7 +38,7 @@ export const Portfolios = () => {
               </div>
             ))
           )}
-        <button onClick={() => Router.push("/portfolio/update")}>+ add</button>
+        <button onClick={() => Router.push("/portfolio/create")}>+ add</button>
       </div>
     </Layout>
   );

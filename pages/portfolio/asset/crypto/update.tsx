@@ -1,27 +1,24 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 import Layout from '@/components/Layout';
 
 const Draft: NextPage = () => {
-  const router = useRouter();
-  const portfolioId = router.query.portfolioId;
   const [name, setName] = useState('');
   const [ticker, setTicker] = useState('');
-  const [index, setIndex] = useState('');
   const [price, setPrice] = useState(0.00);
   const [amount, setAmount] = useState(0.00);
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const body = { portfolioId, name, ticker, index, price, amount };
+      const body = { name, ticker, price, amount };
       await fetch('/api/portfolio/asset/update', {
-        method: 'POST',
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      await Router.push(`/portfolio/${portfolioId}`);
+      await Router.push('/portfolio/');
     } catch (err) {
       console.error(err);
     }
@@ -31,13 +28,13 @@ const Draft: NextPage = () => {
     <Layout>
       <div className="flex justify-center p-3">
         <form onSubmit={submitData}>
-          <h1>Add Stock/Shares</h1>
+          <h1>Add Crypto/Amount</h1>
           <div>
             <label htmlFor="name">Name *</label>
             <input
               autoFocus
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. 'Tesla Inc'"
+              placeholder="e.g. 'Bitcoin'"
               type="text"
               value={name}
               className="text-black mb-2"
@@ -46,18 +43,9 @@ const Draft: NextPage = () => {
             <input
               autoFocus
               onChange={(e) => setTicker(e.target.value)}
-              placeholder="'TSLA'"
+              placeholder="'BTC'"
               type="text"
               value={ticker}
-              className="text-black mb-2"
-            />
-            <label htmlFor="index">Index *</label>
-            <input
-              autoFocus
-              onChange={(e) => setIndex(e.target.value)}
-              placeholder="'NASDAQ'"
-              type="text"
-              value={index}
               className="text-black mb-2"
             />
             <label htmlFor="price">Price *</label>
@@ -69,16 +57,16 @@ const Draft: NextPage = () => {
               value={price}
               className="text-black mb-4"
             />
-            <label htmlFor="amount">Shares *</label>
+            <label htmlFor="amount">Number of Tokens *</label>
             <input
               autoFocus
               onChange={(e) => setAmount(parseFloat(e.target.value))}
-              placeholder="'1.23'"
+              placeholder="'12345.23'"
               type="number"
               value={amount}
               className="text-black mb-4"
             />
-            <input disabled={!name || !ticker || !index || !price || !amount} type="submit" value="Create" />
+            <input disabled={!name || !ticker || !price || !amount} type="submit" value="Submit" />
           </div>
           <a href="#" onClick={() => Router.push('/')}>
             or Cancel
